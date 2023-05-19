@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+<ui:composition>
+
+	<h:form>
+		<div class="enroll-contenaire">
+			<fieldset class="fieldset">
+				<legend>
+					<h:outputLabel value="#{msg['form.name']}" />
+				</legend>
+				<div class="up-part">
+					<div class="box-id">
+						<div class="component">
+							<h:inputText value="#{enlistBean.firstname}" required="true"
+								a:placeholder="#{msg['form.firstname']}"
+								requiredMessage="#{msg['form.promptFirstname']}" id="firstname" />
+							<h:message for="firstname" />
+						</div>
+						<div class="component">
+							<h:inputText value="#{enlistBean.lastname}" required="true"
+								a:placeholder="#{msg['form.lastname']}"
+								requiredMessage="#{msg['form.promptlastname']}" id="lastname" />
+							<h:message for="lastname" />
+
+						</div>
+						<div class="component">
+							<h:inputText value="#{enlistBean.birthdate}" required="true"
+								a:placeholder="#{msg['form.birthdate']}" id="birthdate"
+								requiredMessage="#{msg['form.promptbirthdate']}" />
+							<h:message for="birthdate" />
+
+						</div>
+						<div class="component">
+							<h:inputText value="#{enlistBean.email}" required="true"
+								a:placeholder="#{msg['form.email']}" id="email"
+								requiredMessage="#{msg['form.promptemail']}" />
+							<h:message for="email" />
+						</div>
+						<div class="component">
+							<h:inputText value="#{enlistBean.phone}" required="true"
+								a:placeholder="#{msg['form.phone']}" id="phone"
+								requiredMessage="#{msg['form.promptphone']}" />
+							<h:message for="phone" />
+
+						</div>
+					</div>
+
+					<div class="box-special-sign">
+
+						<div class="component">
+
+							<fieldset>
+								<legend>
+									<h:outputLabel value="#{msg['form.serviceLevel']}" />
+								</legend>
+
+								<h:selectOneMenu value="#{enlistBean.serviceLevel}"
+									id="serviceLevel">
+									<f:selectItems value="#{enlistBean.serviceLevelList}" />
+								</h:selectOneMenu>
+							</fieldset>
+						</div>
+						<div class="component">
+							<fieldset>
+								<legend>
+									<h:outputLabel value="#{msg['form.position']}" />
+								</legend>
+								<h:selectOneMenu value="#{enlistBean.position}" id="position">
+									<f:selectItems value="#{enlistBean.positionList}" />
+								</h:selectOneMenu>
+							</fieldset>
+						</div>
+
+					</div>
+					<div class="box-address">
+						<div class="column">
+							<fieldset class="fieldset">
+								<legend>
+									<h:outputLabel value="#{msg['form.address']}" />
+								</legend>
+
+								<div class="component">
+									<h:inputText value="#{enlistBean.number}" required="false"
+										a:placeholder="#{msg['form.number']}" id="number"
+										requiredMessage="#{msg['form.promptnumber']}" />
+									<h:message for="number" />
+								</div>
+
+
+								<div class="component">
+									<h:inputText value="#{enlistBean.street}" required="false"
+										a:placeholder="#{msg['form.street']}" id="street"
+										requiredMessage="#{msg['form.promptstreet']}" />
+									<h:message for="street" />
+								</div>
+								<div class="component">
+									<h:inputText value="#{enlistBean.zipCode}" required="false"
+										a:placeholder="#{msg['form.zipcode']}" id="zipcode"
+										requiredMessage="#{msg['form.promptzipcode']}" />
+									<h:message for="zipcode" />
+								</div>
+								<div class="component">
+									<h:inputText value="#{enlistBean.city}" required="false"
+										a:placeholder="#{msg['form.city']}" id="city"
+										requiredMessage="#{msg['form.promptcity']}" />
+									<h:message for="city" />
+								</div>
+							</fieldset>
+						</div>
+					</div>
+				</div>
+
+				<div class="down-part">
+					<div class="line-container  justi-left">
+						<div class="component">
+							<fieldset>
+								<legend>
+									<h:outputLabel value="#{msg['form.available']}" />
+								</legend>
+								<h:selectOneRadio value="#{enlistBean.available}"
+									id="available2" layout="pageDirection">
+									<f:selectItems value="#{enlistBean.availableList}" />
+								</h:selectOneRadio>
+							</fieldset>
+						</div>
+						<div class="component">
+							<fieldset>
+								<legend>
+									<h:outputLabel value="#{msg['form.gender']}" />
+								</legend>
+								<h:selectOneMenu value="#{enlistBean.gender}"
+									layout="pageDirection" id="gender">
+									<f:selectItems value="#{enlistBean.genderList}" />
+								</h:selectOneMenu>
+							</fieldset>
+						</div>
+						<div class="component">
+							<fieldset>
+								<legend>
+									<h:outputLabel value="#{msg['form.langList']}" />
+								</legend>
+								<h:outputLabel value="#{enlistBean.langListSelected}" />
+								<h:selectManyCheckbox value="#{enlistBean.langListSelected}"
+									layout="pageDirection" id="langList" styleClass="lang-list">
+									<f:selectItems value="#{enlistBean.langListChoice}" />
+								</h:selectManyCheckbox>
+							</fieldset>
+						</div>
+
+						<div class="column">
+
+							<div class="component">
+								<h:outputLabel value="#{enlistBean.information}" />
+
+							</div>
+							<div class="component">
+								<h:commandButton id="AddStudent" value="#{msg['form.enroll']}"
+									styleClass="enroll-button" image="logo.png"
+									action="#{enlistBean.enroll()}"
+									rendered="#{!enlistBean.addMode}" />
+							</div>
+							<div class="component">
+								<h:commandButton id="ValidateChange"
+									value="#{msg['form.validateChange']}"
+									styleClass="enroll-button"
+									action="#{enlistBean.validateChange()}"
+									rendered="#{enlistBean.addMode}" />
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</fieldset>
+
+		</div>
+	</h:form>
+</ui:composition>
+
+</html>

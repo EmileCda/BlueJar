@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+<ui:composition>
+	<h:form>
+		<div class="display-enlist">
+			<h:outputLabel value="#{msg['form.registrantList']}"></h:outputLabel>
+			<h:commandButton id="Reload" value="#{msg['form.reload']}"
+				action="#{attendeeListBean.reload()}" />
+
+			<h:dataTable value="#{attendeeListBean.attendeeList}"
+				var="oneAttendee" styleClass="order-table"
+				headerClass="order-table-header"
+				rowClasses="order-table-odd-row,order-table-even-row"
+				cellpadding="10">
+
+				<h:column>
+					<f:facet name="header">#{msg['form.firstname']}</f:facet>
+					<h:outputText value="#{oneAttendee.firstname}" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">#{msg['form.lastname']}</f:facet>
+					<h:outputText value="#{oneAttendee.lastname}" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">#{msg['form.email']}</f:facet>
+					<h:outputText value="#{oneAttendee.email}" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">#{msg['form.birthdate']}</f:facet>
+					<h:outputText value="#{oneAttendee.birthdate}" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">#{msg['form.address']}</f:facet>
+					<h:outputText value="#{oneAttendee.address}" escape="false"
+						style="display:block;min-width:600px" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">#{msg['form.serviceLevel']}</f:facet>
+					<h:outputText value="#{oneAttendee.serviceLevel}" />
+				</h:column>
+
+
+				<h:column>
+					<f:facet name="header">#{msg['form.modify']}</f:facet>
+					<h:commandButton id="modify" value="#{msg['form.modify']}"
+						action="#{enlistBean.modify(oneAttendee)}">
+
+					</h:commandButton>
+
+				</h:column>
+				<h:column>
+					<f:facet name="header">#{msg['form.delete']}</f:facet>
+					<h:commandButton id="delete" value="#{msg['form.delete']}"
+						action="#{attendeeListBean.delete(oneAttendee)}" />
+
+				</h:column>
+
+			</h:dataTable>
+		</div>
+	</h:form>
+</ui:composition>
+</html>
