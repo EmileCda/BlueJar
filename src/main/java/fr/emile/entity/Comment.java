@@ -1,5 +1,17 @@
 package fr.emile.entity;
 
-public class Comment {
+import java.io.Serializable;
+
+import fr.emile.common.IConstant;
+
+public class Comment implements IConstant, Serializable {
+	private int id; 
+	private String  text;
+	private Item item;
+	private User user;
+	
+	
+	
+	
 
 }
