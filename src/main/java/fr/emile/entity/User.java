@@ -47,11 +47,11 @@ public class User implements IConstant {
 
 	private String phone;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
-//	@Transient
 	private List<Address> addressList;
 	@Transient
 	private List<Order> orderList;
-	@Transient
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
+//	@Transient
 	private List<BankCard> bankCardList;
 	@Transient
 	private List<Comment> commentList;
@@ -96,16 +96,17 @@ public class User implements IConstant {
 		this.setClearPass(clearPass);
 		this.setPass(pass);
 		this.setPhone(phone);
-		this.addressList = new ArrayList<Address>();
-		this.orderList = new ArrayList<Order>();
-		this.bankCardList = new ArrayList<BankCard>();
-		this.commentList = new ArrayList<Comment>();
-		this.itemList = new ArrayList<Item>();
 		this.setAddressList(addressList);
 		this.setOrderList(orderList);
 		this.setBankCardList(bankCardList);
 		this.setCommentList(commentList);
 		this.setItemList(itemList);
+
+		this.addressList = new ArrayList<Address>();
+		this.orderList = new ArrayList<Order>();
+		this.bankCardList = new ArrayList<BankCard>();
+		this.commentList = new ArrayList<Comment>();
+		this.itemList = new ArrayList<Item>();
 
 	}
 
@@ -114,6 +115,9 @@ public class User implements IConstant {
 
 		this.setPass(Code.encrypt(this.getClearPass(), PASS_KEY));
 		this.setBirthdate(Utils.toSqlDate(this.getBirthdateJava()));
+		for (BankCard bankCard : this.getBankCardList()) {
+			bankCard.encrypt();
+		}
 	}
 
 	// -------------------------------------------------------------------------------------------------
@@ -121,6 +125,10 @@ public class User implements IConstant {
 
 		this.setBirthdateJava(Utils.toJavaDate(this.getBirthdate()));
 		this.setClearPass(Code.decrypt2String(this.getPass(), PASS_KEY));
+		for (BankCard bankCard : this.getBankCardList()) {
+			bankCard.decrypt();
+		}
+		
 	}
 
 	// -------------------------------------------------------------------------------------------------
@@ -128,8 +136,24 @@ public class User implements IConstant {
 
 		if (this.addressList == null)
 			this.addressList = new ArrayList<Address>();
+		
 		address.setUser(this);
 		this.addressList.add(address);
+	}
+
+	// -------------------------------------------------------------------------------------------------
+	public void addBankCard(BankCard bankCard) {
+
+		
+		if (this.bankCardList == null)
+			this.bankCardList= new ArrayList<BankCard>();
+
+		bankCard.setUser(this);
+		bankCard.setOwnerGender(this.getGender());
+		bankCard.setOwnerFirstname(this.getFirstname());
+		bankCard.setOwnerLastname(this.getLastname());
+		
+		this.bankCardList.add(bankCard);
 	}
 
 	// -------------------------------------------------------------------------------------------------
@@ -284,10 +308,21 @@ public class User implements IConstant {
 				Utils.date2String(getBirthdateJava(), "dd/MM/yyyy"), getProfile().getName(),
 				getIsActif() ? "actif" : "non-actif", getEmail(), getPhone());
 
+
 		if ((this.getAddressList() != null) && (this.getAddressList().size() >0)) {
 			
-			for (Address address : addressList) {
+			stringDisplay += "Adresse : \n";
+			
+			for (Address address : getAddressList()) {
 				stringDisplay += "\t" + address.toString() + "\n";
+			}
+		}
+		
+		if ((this.getBankCardList() != null) && (this.getBankCardList().size() >0)) {
+			stringDisplay += "Carte de paiement : \n";
+			
+			for (BankCard bankCard : getBankCardList()) {
+				stringDisplay += "\t" + bankCard .toString() + "\n";
 			}
 		}
 

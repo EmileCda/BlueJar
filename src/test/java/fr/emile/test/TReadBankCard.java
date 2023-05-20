@@ -1,8 +1,8 @@
 package fr.emile.test;
 
-import fr.emile.entity.User;
-import fr.emile.model.implement.UserDao;
-import fr.emile.model.interfaces.IUserDao;
+import fr.emile.entity.BankCard;
+import fr.emile.model.implement.BankCardDao;
+import fr.emile.model.interfaces.IBankCardDao;
 import fr.emile.utils.DataTest;
 import fr.emile.utils.Utils;
 
@@ -13,26 +13,24 @@ import fr.emile.utils.Utils;
 
 
 
-public class TReadUser {
+public class TReadBankCard {
 public static void main(String[] args) {
 	
 	Utils.trace("------------- start ----------------------");
-	int userId = 6 ;
-	User myUser = new User();
+	int id = 2 ;
+	BankCard bankCard=  new BankCard();
 	
-	IUserDao myUserDao = new UserDao();
+	IBankCardDao myBankCardDao = new BankCardDao();
 	try {
-		myUser = myUserDao.read(userId);
+		bankCard = myBankCardDao.read(id);
 	} catch (Exception e) {
 		Utils.trace("catch myUserDao.add(myUser) ");
 		e.printStackTrace();
 	}finally {
+		Utils.trace(bankCard.toString());
+		bankCard.decrypt();
+		Utils.trace(bankCard.toString());
 		
-		if (myUser != null) {
-			Utils.trace(myUser.toString());
-			myUser.decrypt();
-			Utils.trace(myUser.toString());
-		}
 	}
 	Utils.trace("------------- End ----------------------");
 

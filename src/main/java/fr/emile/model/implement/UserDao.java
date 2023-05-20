@@ -16,7 +16,11 @@ public class UserDao implements IUserDao {
 		Session session = DBConnect.getSession();
 		Transaction transaction = null;
 		try {
+			
+			if (user != null)
+				user.encrypt();
 			transaction = session.beginTransaction();
+			
 			session.save(user);
 			transaction.commit();
 
@@ -43,6 +47,9 @@ public class UserDao implements IUserDao {
 		try {
 			user= new User();
 			user = session.find(User.class, id);
+			if (user != null)
+				user.decrypt();
+
 		} catch (Exception e) {
 			Utils.trace("catch Read " +e.toString());
 

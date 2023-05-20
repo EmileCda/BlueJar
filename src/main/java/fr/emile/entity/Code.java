@@ -48,7 +48,6 @@ public final class Code implements IConstant {
 
 
 		IParamDao myParamDao = new ParamDao();
-		Utils.trace("getParamFromDB");
 		try {
 			Code.param = myParamDao.readByFunctionCode(functionCode);
 
@@ -108,7 +107,6 @@ public final class Code implements IConstant {
 	// -------------------------------------------------------------------------------------------------
 	private static void initKey() {
 		Code.getParamFromDB(FUNCTION_KEY_DB);
-		Utils.trace("initKey() ");
 		if (param == null) { // if null, generate new keys
 			try {
 				Utils.trace("param == null");
@@ -186,7 +184,6 @@ public final class Code implements IConstant {
 	// -------------------------------------------------------------------------------------------------
 	public static String decrypt2String(byte[] toDecrypte, int typeKey) {
 
-		Utils.trace(Arrays.toString(toDecrypte));
 		return new String(Code.decrypt(toDecrypte, typeKey));
 
 	}

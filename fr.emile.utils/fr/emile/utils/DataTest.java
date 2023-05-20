@@ -1,6 +1,5 @@
 package fr.emile.utils;
 
-
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -20,7 +19,6 @@ import fr.emile.entity.User;
 import fr.emile.enums.Gender;
 import fr.emile.enums.Profile;
 import fr.emile.utils.Utils;
-
 
 public class DataTest implements IConstant {
 
@@ -42,34 +40,38 @@ public class DataTest implements IConstant {
 	}
 
 	// ---------------------------------------------------------------------------------------------------
-	public static BankCard genBankCard(String firstname, String lastName) {
-		
+	public static BankCard genBankCardNoName() {
+
 		BankCard myBankCard = new BankCard();
-		
-		
-		Date startDate = Utils.string2Date("01/01/2023", "dd/MM/yyyy");
-		Date endDate = Utils.string2Date("01/01/2025", "dd/MM/yyyy");
-		
 		int bin = Utils.randInt(111111, 999999);
 		int digit3 = Utils.randInt(0, 999);
 		int digit8 = Utils.randInt(11111111, 99999999);
-		
-//		myBankCard.setId(DEFAULT_ID);
-//		myBankCard.setCardNumber(String.format("%06d%08d",bin,digit8));
-//		myBankCard.setExpiryDate(DataTest.date(startDate, endDate));
-//		myBankCard.setCryptogram(String.format("%03d",digit3));
-//		myBankCard.setBelongTo(firstname+ " " + lastName);
-		
-		
-//		public BankCard(int id, String cardNumber, byte[] encryptCardNumber, Date expiryDate, String cryptogram,
-//				byte[] encrypCryptogram, String belongTo, boolean isValid, boolean isDeleted, int userId) {
-			
-			return myBankCard ; 
-		}
+
+		myBankCard.setCardClairNumber(String.format("%06d%08d", bin, digit8));
+		Date startDate = Utils.string2Date("01/01/2023", "dd/MM/yyyy");
+		Date endDate = Utils.string2Date("01/01/2025", "dd/MM/yyyy");
+		myBankCard.setExpiryDateJava(DataTest.date(startDate, endDate));
+		myBankCard.setClairCrypto(String.format("%03d", digit3));
+
+		return myBankCard;
+	}
 
 	// ---------------------------------------------------------------------------------------------------
 	public static BankCard genBankCard() {
-		return DataTest.genBankCard(DataTest.firstname(),DataTest.lastname()); 
+
+		BankCard myBankCard = new BankCard();
+
+		myBankCard = DataTest.genBankCardNoName();
+
+		Gender gender = DataTest.gender();
+		String firstname1 = DataTest.firstname(gender);
+		String lastname = DataTest.lastname();
+
+		myBankCard.setOwnerGender(gender);
+		myBankCard.setOwnerFirstname(firstname1);
+		myBankCard.setOwnerLastname(lastname);
+
+		return myBankCard;
 	}
 
 	// ---------------------------------------------------------------------------------------------------
@@ -81,37 +83,32 @@ public class DataTest implements IConstant {
 		String firstname = DataTest.firstname(gender);
 		String lastname = DataTest.lastname();
 
-		
-		
-		return new User(gender,firstname, lastname, DataTest.date(startDate, endDate),
-				DataTest.profile(),	DataTest.email(firstname, lastname),
-				DataTest.pass(firstname),DataTest.phone());
+		return new User(gender, firstname, lastname, DataTest.date(startDate, endDate), DataTest.profile(),
+				DataTest.email(firstname, lastname), DataTest.pass(firstname), DataTest.phone());
 
-		
 	}
 
 //---------------------------------------------------------------------------------------------------
 	public static Address genAddress() {
 
-		
 		return new Address(DataTest.number(), DataTest.numberType(), DataTest.streetType(), DataTest.street(),
 				DataTest.city(), DataTest.zipcode());
 	}
 
 //---------------------------------------------------------------------------------------------------
 	public static String phone() {
-		
-		return String.format("%05d", Utils.randInt(0, 99999))+ String.format("%05d", Utils.randInt(0, 99999));
-		
-		
+
+		return String.format("%05d", Utils.randInt(0, 99999)) + String.format("%05d", Utils.randInt(0, 99999));
+
 	}
-		//---------------------------------------------------------------------------------------------------
-			public static String pass(String inString) {
+
+	// ---------------------------------------------------------------------------------------------------
+	public static String pass(String inString) {
 
 		char[] charTab = inString.toCharArray();
 		int length = inString.length();
 
-		for (int index = 0; index < length ; index++) {
+		for (int index = 0; index < length; index++) {
 			if ((index % 2) == 0) {
 				charTab[length - index - 1] = Character.toUpperCase(inString.charAt(index));
 			} else
@@ -121,6 +118,7 @@ public class DataTest implements IConstant {
 		return new String(charTab);
 //		return inString;
 	}
+
 //---------------------------------------------------------------------------------------------------
 	public static String firstname() {
 

@@ -158,8 +158,8 @@ public class Address implements  IConstant, Serializable {
 	@Override
 	public String toString() {
 		return String.format(
-				"Id[%s], %d %s, %s %s %s %s, %s",
-				getId(), getNumber(), getNumberType(), getStreet(), getStreetType(), getZipCode(), getCity(),
+				"Id[%s], %d%s, %s %s %s %s, %s",
+				getId(), getNumber(), (getNumberType().length()>0)?" "+getNumberType():"", getStreet(), getStreetType(), getZipCode(), getCity(),
 				isValide() ? "valide": "non-valide" );
 	}
 	

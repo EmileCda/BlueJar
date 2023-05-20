@@ -4,6 +4,7 @@ import java.util.Date;
 
 import fr.emile.enums.Gender;
 import fr.emile.enums.Profile;
+import fr.emile.utils.Utils;
 
 public interface IConstant {
 
@@ -11,6 +12,8 @@ public interface IConstant {
 
 	public final String DEFAULT_BANK_CARD_NUMBER = "1000200030004000";
 	public final String DEFAULT_BANK_CARD_CRYPTO = "XYZ";
+	public final Date DEFAULT_DATE = Utils.string2Date("01/01/1970", "dd/MM/yyyy");
+	
 	public final String DEFAULT_FIRSTNAME = "No-Firstname";
 	public final String DEFAULT_LASTNAME = "No-Lastname";
 	public final String DEFAULT_USER = DEFAULT_FIRSTNAME + " " + DEFAULT_LASTNAME;
