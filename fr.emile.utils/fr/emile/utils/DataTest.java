@@ -1,5 +1,6 @@
 package fr.emile.utils;
 
+
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -19,6 +20,7 @@ import fr.emile.entity.User;
 import fr.emile.enums.Gender;
 import fr.emile.enums.Profile;
 import fr.emile.utils.Utils;
+
 
 public class DataTest implements IConstant {
 
@@ -89,11 +91,12 @@ public class DataTest implements IConstant {
 	}
 
 //---------------------------------------------------------------------------------------------------
-//	public static Address genAddress() {
-//
-//		return new Address(DataTest.number(), DataTest.numberType(), DataTest.streetType(), DataTest.street(),
-//				DataTest.city(), DataTest.zipcode());
-//	}
+	public static Address genAddress() {
+
+		
+		return new Address(DataTest.number(), DataTest.numberType(), DataTest.streetType(), DataTest.street(),
+				DataTest.city(), DataTest.zipcode());
+	}
 
 //---------------------------------------------------------------------------------------------------
 	public static String phone() {

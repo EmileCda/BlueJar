@@ -1,5 +1,7 @@
 package fr.emile.test;
 
+import java.util.Arrays;
+
 import fr.emile.entity.User;
 import fr.emile.model.implement.UserDao;
 import fr.emile.model.interfaces.IUserDao;
@@ -27,9 +29,16 @@ public static void main(String[] args) {
 		Utils.trace("catch myUserDao.add(myUser) ");
 		e.printStackTrace();
 	}finally {
-		Utils.trace(myUser.toString());
-		myUser.decrypt();
-		Utils.trace(myUser.toString());
+//		Utils.trace(myUser.toString());
+		if (myUser != null) {
+
+			myUser.decrypt();
+			Utils.trace(myUser.toString());
+
+		}else {
+			Utils.trace("pas de useru id : "+ userId);
+		}
+		
 		
 	}
 	Utils.trace("------------- End ----------------------");

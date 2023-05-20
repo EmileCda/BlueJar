@@ -10,6 +10,7 @@ import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Arrays;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.crypto.BadPaddingException;
@@ -43,16 +44,15 @@ public final class Code implements IConstant {
 
 // -------------------------------------------------------------------------------------------------
 
-	private static Param getParamFromDB(int functionCode) {
+	private static void getParamFromDB(int functionCode) {
 
-		Param param = null;
 
 		IParamDao myParamDao = new ParamDao();
 		Utils.trace("getParamFromDB");
 		try {
-			param = myParamDao.readByFunctionCode(functionCode);
+			Code.param = myParamDao.readByFunctionCode(functionCode);
 
-			if (param == null)
+			if (Code.param == null)
 				Utils.trace("if (param == null ) ");
 
 		} catch (Exception e) {
@@ -60,7 +60,6 @@ public final class Code implements IConstant {
 			Utils.trace("catch getKeyFromDB Exception " + e.toString());
 		}
 
-		return param;
 	}
 
 // -------------------------------------------------------------------------------------------------
@@ -72,8 +71,8 @@ public final class Code implements IConstant {
 
 			if ((Code.bcKey != null) && (Code.passKey != null)) {
 				Utils.trace("convert key to byte[]");
-				byte[] blobKeyPass = Code.getKey(BC_KEY).getEncoded();
-				byte[] blobKeyBC = Code.getKey(PASS_KEY).getEncoded();
+				byte[] blobKeyBC = Code.getKey(BC_KEY).getEncoded();
+				byte[] blobKeyPass = Code.getKey(PASS_KEY).getEncoded();
 				Param param = new Param(blobKeyPass, blobKeyBC, FUNCTION_KEY_DB, ALGORITHM, KEY_LENGTH);
 				myParamDao.create(param);
 			}
@@ -108,7 +107,7 @@ public final class Code implements IConstant {
 
 	// -------------------------------------------------------------------------------------------------
 	private static void initKey() {
-		Param param = Code.getParamFromDB(FUNCTION_KEY_DB);
+		Code.getParamFromDB(FUNCTION_KEY_DB);
 		Utils.trace("initKey() ");
 		if (param == null) { // if null, generate new keys
 			try {
@@ -144,7 +143,7 @@ public final class Code implements IConstant {
 
 	// -------------------------------------------------------------------------------------------------
 	public static byte[] encrypt(String toEncrypt, int typeKey) {
-		
+
 		if ((toEncrypt != null) && (toEncrypt.length() > 0)) {
 
 			byte[] messageByte = null;
@@ -153,9 +152,9 @@ public final class Code implements IConstant {
 			} catch (UnsupportedEncodingException e) {
 				Utils.trace("catch encryptBankCard :" + e.toString());
 			}
-			return encrypt(messageByte,typeKey);
+			return encrypt(messageByte, typeKey);
 		}
-		return null ; 
+		return null;
 	}
 
 	// -------------------------------------------------------------------------------------------------
@@ -185,14 +184,28 @@ public final class Code implements IConstant {
 	}
 
 	// -------------------------------------------------------------------------------------------------
-public static String decrypt2String(byte[] toDecrypte, int typeKey) {
-	
-	return new String(Code.decrypt( toDecrypte,typeKey)) ;
-		
-}
+	public static String decrypt2String(byte[] toDecrypte, int typeKey) {
 
-// -------------------------------------------------------------------------------------------------
-public static byte[] decrypt(byte[] toDecrypte, int typeKey) {
+		Utils.trace(Arrays.toString(toDecrypte));
+		return new String(Code.decrypt(toDecrypte, typeKey));
+
+	}
+
+	// -------------------------------------------------------------------------------------------------
+	private static void setParam(Param param) {
+
+		Code.param = param;
+	}
+
+	// -------------------------------------------------------------------------------------------------
+	public static void deleteKey() {
+		Code.setKey(null, PASS_KEY);
+		Code.setKey(null, BC_KEY);
+		Code.setParam(null);
+	}
+
+//-------------------------------------------------------------------------------------------------
+	public static byte[] decrypt(byte[] toDecrypte, int typeKey) {
 
 		Cipher cipher;
 		byte[] result = null;

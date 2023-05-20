@@ -8,7 +8,6 @@ import java.util.List;
 import fr.emile.common.IConstant;
 import fr.emile.enums.Gender;
 import fr.emile.enums.Profile;
-import fr.emile.utils.DataTest;
 import fr.emile.utils.Utils;
 
 import javax.persistence.CascadeType;
@@ -24,7 +23,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-
 @Entity
 @Table(name = "user")
 public class User implements IConstant {
@@ -36,18 +34,20 @@ public class User implements IConstant {
 	private String firstname;
 	private String lastname;
 	@Transient
-	private Date birthdate;
-	private java.sql.Date birthdateSql;
+	private Date birthdateJava;
+	private java.sql.Date birthdate;
+	@Column(name = "is_actif")
 	private Boolean isActif;
 	private Profile profile;
 	private String email;
 	@Transient
-	private String pass;
+	private String clearPass;
 	@Lob
-	private byte[] encryptpass;
+	private byte[] pass;
 
 	private String phone;
-	@Transient
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
+//	@Transient
 	private List<Address> addressList;
 	@Transient
 	private List<Order> orderList;
@@ -58,37 +58,44 @@ public class User implements IConstant {
 	@Transient
 	private List<Item> itemList; // meaning cart
 
-	private Boolean isDeleted;
 
 	public User() {
 		this(DEFAULT_ID, DEFAULT_GENDER, DEFAULT_FIRSTNAME, DEFAULT_LASTNAME, NULL_DATE, false, DEFAULT_PROFILE,
-				DEFAULT_EMAIL, DEFAULT_PASS, null, DEFAULT_PHONE, null, null, null, null, null, false);
+				DEFAULT_EMAIL, DEFAULT_PASS, null, DEFAULT_PHONE, null, null, null, null, null);
 	}
 
 	public User(Gender gender, String firstname, String lastname, Date birthdate, Profile profile, String email,
 			String pass, String phone) {
 
 		this(DEFAULT_ID, gender, firstname, lastname, birthdate, true, profile, email, pass, null, phone, null, null,
-				null, null, null, false);
+				null, null, null);
+
+	}
+
+	public User(User copyUser) {
+
+		this(copyUser.getId(), copyUser.getGender(), copyUser.getFirstname(), copyUser.getLastname(),
+				copyUser.getBirthdateJava(), copyUser.getIsActif(), copyUser.getProfile(), copyUser.getEmail(),
+				copyUser.getClearPass(), copyUser.getPass(), copyUser.getPhone(), copyUser.getAddressList(),
+				copyUser.getOrderList(), copyUser.getBankCardList(), copyUser.getCommentList(), copyUser.getItemList());
 
 	}
 
 	public User(int id, Gender gender, String firstname, String lastname, Date birthdate, Boolean isActif,
-			Profile profile, String email, String pass, byte[] encryptPass, String phone, List<Address> addressList,
-			List<Order> orderList, List<BankCard> bankCardList, List<Comment> commentList, List<Item> itemList,
-			Boolean isDeleted) {
+			Profile profile, String email, String clearPass, byte[] pass, String phone, List<Address> addressList,
+			List<Order> orderList, List<BankCard> bankCardList, List<Comment> commentList, List<Item> itemList
+		) {
 		this.setId(id);
 		this.setGender(gender);
 		this.setFirstname(firstname);
 		this.setLastname(lastname);
-		this.setBirthdate(birthdate);
+		this.setBirthdateJava(birthdate);
 		this.setIsActif(isActif);
 		this.setProfile(profile);
 		this.setEmail(email);
+		this.setClearPass(clearPass);
 		this.setPass(pass);
-		this.setEncryptPass(encryptPass);
 		this.setPhone(phone);
-		this.setIsDeleted(isDeleted);
 		this.addressList = new ArrayList<Address>();
 		this.orderList = new ArrayList<Order>();
 		this.bankCardList = new ArrayList<BankCard>();
@@ -105,15 +112,24 @@ public class User implements IConstant {
 	// -------------------------------------------------------------------------------------------------
 	public void encrypt() {
 
-		this.setEncryptPass(Code.encrypt(this.getPass(),PASS_KEY));
-		this.setBirthdateSql(Utils.toSqlDate(this.getBirthdate()));
+		this.setPass(Code.encrypt(this.getClearPass(), PASS_KEY));
+		this.setBirthdate(Utils.toSqlDate(this.getBirthdateJava()));
 	}
 
 	// -------------------------------------------------------------------------------------------------
 	public void decrypt() {
 
-		this.setBirthdate(Utils.toJavaDate(this.getBirthdateSql()));
-		this.setPass(Code.decrypt2String(this.getEncryptPass(),PASS_KEY));
+		this.setBirthdateJava(Utils.toJavaDate(this.getBirthdate()));
+		this.setClearPass(Code.decrypt2String(this.getPass(), PASS_KEY));
+	}
+
+	// -------------------------------------------------------------------------------------------------
+	public void addAddress(Address address) {
+
+		if (this.addressList == null)
+			this.addressList = new ArrayList<Address>();
+		address.setUser(this);
+		this.addressList.add(address);
 	}
 
 	// -------------------------------------------------------------------------------------------------
@@ -134,7 +150,7 @@ public class User implements IConstant {
 	}
 
 	public String getFirstname() {
-		return firstname;
+		return this.firstname;
 	}
 
 	public void setFirstname(String firstname) {
@@ -142,20 +158,13 @@ public class User implements IConstant {
 	}
 
 	public String getLastname() {
-		return lastname;
+		return this.lastname;
 	}
 
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
 	}
 
-	public Date getBirthdate() {
-		return birthdate;
-	}
-
-	public void setBirthdate(Date birthdate) {
-		this.birthdate = birthdate;
-	}
 
 	public Boolean getIsActif() {
 		return isActif;
@@ -166,7 +175,7 @@ public class User implements IConstant {
 	}
 
 	public Profile getProfile() {
-		return profile;
+		return this.profile;
 	}
 
 	public void setProfile(Profile profile) {
@@ -174,31 +183,16 @@ public class User implements IConstant {
 	}
 
 	public String getEmail() {
-		return email;
+		return this.email;
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	public String getPass() {
-		return pass;
-	}
-
-	public void setPass(String pass) {
-		this.pass = pass;
-	}
-
-	public byte[] getEncryptPass() {
-		return encryptpass;
-	}
-
-	public void setEncryptPass(byte[] encryptPass) {
-		this.encryptpass = encryptPass;
-	}
 
 	public String getPhone() {
-		return phone;
+		return this.phone;
 	}
 
 	public void setPhone(String phone) {
@@ -206,7 +200,7 @@ public class User implements IConstant {
 	}
 
 	public List<Address> getAddressList() {
-		return addressList;
+		return this.addressList;
 	}
 
 	public void setAddressList(List<Address> addressList) {
@@ -245,28 +239,60 @@ public class User implements IConstant {
 		this.itemList = itemList;
 	}
 
-	public Boolean getIsDeleted() {
-		return isDeleted;
+
+	
+	public Date getBirthdateJava() {
+		return birthdateJava;
 	}
 
-	public void setIsDeleted(Boolean isDeleted) {
-		this.isDeleted = isDeleted;
+	public void setBirthdateJava(Date birthdateJava) {
+		this.birthdateJava = birthdateJava;
 	}
 
-	public java.sql.Date getBirthdateSql() {
-		return birthdateSql;
+	public java.sql.Date getBirthdate() {
+		return birthdate;
 	}
 
-	public void setBirthdateSql(java.sql.Date birthdateSql) {
-		this.birthdateSql = birthdateSql;
+	public void setBirthdate(java.sql.Date birthdate) {
+		this.birthdate = birthdate;
+	}
+
+	public String getClearPass() {
+		return clearPass;
+	}
+
+	public void setClearPass(String clearPass) {
+		this.clearPass = clearPass;
+	}
+
+	public byte[] getPass() {
+		
+		System.out.printf("ligen 270 %s\n",Arrays.toString(this.pass));
+		return this.pass;
+	}
+
+	public void setPass(byte[] pass) {
+		this.pass = pass;
 	}
 
 	@Override
 	public String toString() {
-		return String.format("id:%d [%s] %s %s %s, née %s %s profil %s %b tel :%s  del:%b]", getId(),
-				getPass(),
-				getGender().getTitle(), getFirstname(), getLastname(), Utils.date2String(getBirthdate(), "dd/MM/yyyy"),
-				getIsActif(), getProfile().getName(), getEmail(), getPhone(), getIsDeleted());
+
+		String stringDisplay = "";
+		stringDisplay += String.format("id:%d [%s] %s %s %s, née %s profil:%s, %s %s tel: %s ]\n", getId(),
+				getClearPass(), getGender().getTitle(), getFirstname(), getLastname(),
+				Utils.date2String(getBirthdateJava(), "dd/MM/yyyy"), getProfile().getName(),
+				getIsActif() ? "actif" : "non-actif", getEmail(), getPhone());
+
+		if ((this.getAddressList() != null) && (this.getAddressList().size() >0)) {
+			
+			for (Address address : addressList) {
+				stringDisplay += "\t" + address.toString() + "\n";
+			}
+		}
+
+		return stringDisplay;
+
 	}
 
 }

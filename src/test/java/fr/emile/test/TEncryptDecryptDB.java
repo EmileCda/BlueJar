@@ -19,23 +19,46 @@ public class TEncryptDecryptDB implements IConstant {
 
 	public static void main(String[] args) throws UnsupportedEncodingException {
 
-		byte[] byteEncodePass = Code.encrypt(DEFAULT_TEXT.getBytes(CHARSET),PASS_KEY);
+		byte[] byteEncodePassFromByte = Code.encrypt(DEFAULT_TEXT.getBytes(CHARSET),PASS_KEY);
+		byte[] byteEncodePass = Code.encrypt(DEFAULT_TEXT,PASS_KEY);
 
+		byte[] byteEncodeBCFromByte = Code.encrypt(DEFAULT_TEXT.getBytes(CHARSET),BC_KEY);
+		byte[] byteEncodeBC = Code.encrypt(DEFAULT_TEXT,BC_KEY);
+		
+		Code.deleteKey(); // delete key in order to force to get key from DB
+		
+		
+		Utils.trace("------------------ using PASS encode ------------------------------");
+		
 		byte[] byteEncodePassResult = Code.decrypt(byteEncodePass,PASS_KEY);
+		String stringPassResult= Code.decrypt2String(byteEncodePass,PASS_KEY);
 
 		Utils.trace(DEFAULT_TEXT);
 		Utils.trace(new String(byteEncodePassResult));
+		Utils.trace(stringPassResult);
+		byteEncodePassResult = Code.decrypt(byteEncodePassFromByte,PASS_KEY);
+		stringPassResult= Code.decrypt2String(byteEncodePassFromByte,PASS_KEY);
+		Utils.trace(new String(byteEncodePassResult));
+		Utils.trace(stringPassResult);
 
-		
-		
-		byte[] byteEncodeBC = Code.encrypt(DEFAULT_TEXT.getBytes(CHARSET),BC_KEY);
+		Utils.trace("------------------ using BC encode ------------------------------");
 
 		byte[] byteEncodeBCResult = Code.decrypt(byteEncodeBC,BC_KEY);
+		String stringBCResult= Code.decrypt2String(byteEncodeBC,BC_KEY);
 
 		Utils.trace(DEFAULT_TEXT);
 		Utils.trace(new String(byteEncodeBCResult));
+		Utils.trace(stringBCResult);
+		byteEncodeBCResult = Code.decrypt(byteEncodeBCFromByte,BC_KEY);
+		stringBCResult= Code.decrypt2String(byteEncodeBCFromByte,BC_KEY);
+		Utils.trace(new String(byteEncodeBCResult));
+		Utils.trace(stringBCResult);
 
-//	 tests below should generate an exception 
+		Utils.trace(stringBCResult.equals(DEFAULT_TEXT) ? "bonne réponse" : "erreur code ");
+		Utils.trace(stringPassResult.equals(DEFAULT_TEXT) ? "bonne réponse" : "erreur code ");
+		
+//	 tests below should generate exceptions 
+		Code.deleteKey(); // delete key in order to force to get key from DB
 		try {
 			Utils.trace(new String(Code.decrypt(byteEncodePass,BC_KEY)));
 		} catch (Exception e) {

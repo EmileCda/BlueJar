@@ -1,32 +1,70 @@
 package fr.emile.model.implement;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import fr.emile.entity.Address;
+import fr.emile.entity.Address;
+import fr.emile.model.connect.DBConnect;
 import fr.emile.model.interfaces.IAddressDao;
+import fr.emile.utils.Utils;
 
 public class AddressDao implements IAddressDao {
 
-	@Override
 	public Address create(Address address) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Session session = DBConnect.getSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+			session.save(address);
+			transaction.commit();
+
+
+		} catch (Exception e) {
+
+			Utils.trace("catch create "+ e.toString());
+			if (transaction != null) {
+				transaction.rollback();
+			}
+
+		} finally {
+			this.closeSession( session);
+
+		}
+		return address;
 	}
 
-	@Override
 	public Address read(int id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Session session = DBConnect.getSession();
+		Address address = null;
+		try {
+			address= new Address();
+			address = session.find(Address.class, id);
+		} catch (Exception e) {
+			Utils.trace("catch Read " +e.toString());
+
+		} finally {
+			this.closeSession( session);
+		}
+
+		return address;
 	}
 
-	@Override
 	public int update(Address address) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	@Override
 	public int delete(Address address) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	private void closeSession(Session session) {
+
+		// session will be close by the end of the application		
+//				if (session != null && session.isOpen())
+//					session.close();
+				
+			}
 
 }
