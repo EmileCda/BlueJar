@@ -1,32 +1,81 @@
 package fr.emile.model.implement;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import fr.emile.entity.Address;
+import fr.emile.entity.Category;
+import fr.emile.entity.Category;
+import fr.emile.model.connect.DBConnect;
 import fr.emile.model.interfaces.IAddressDao;
+import fr.emile.model.interfaces.ICategoryDao;
+import fr.emile.utils.Utils;
 
-public class CategoryDao implements IAddressDao {
+public final class CategoryDao implements ICategoryDao {
 
 	@Override
-	public Address create(Address address) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public Category create(Category category) throws Exception {
+		Session session = DBConnect.getSession();
+		Transaction transaction = null;
+		try {
+			
+			transaction = session.beginTransaction();
+			
+			session.save(category);
+			transaction.commit();
+
+
+		} catch (Exception e) {
+
+			Utils.trace("catch create "+ e.toString());
+			if (transaction != null) {
+				transaction.rollback();
+			}
+
+		} finally {
+			this.closeSession( session);
+
+		}
+		return category;
 	}
 
 	@Override
-	public Address read(int id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public Category read(int id) throws Exception {
+		Session session = DBConnect.getSession();
+		Category category = null;
+		try {
+			category= new Category();
+			category = session.find(Category.class, id);
+
+		} catch (Exception e) {
+			Utils.trace("catch Read " +e.toString());
+
+		} finally {
+			this.closeSession( session);
+		}
+
+		return category;
 	}
 
 	@Override
-	public int update(Address address) throws Exception {
+	public int update(Category category) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int delete(Address address) throws Exception {
+	public int delete(Category category) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+
+	private void closeSession(Session session) {
+
+		// session will be close by the end of the application		
+//				if (session != null && session.isOpen())
+//					session.close();
+				
+			}
 
 }

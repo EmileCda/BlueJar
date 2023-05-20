@@ -16,6 +16,8 @@ import fr.emile.entity.Comment;
 import fr.emile.entity.Item;
 import fr.emile.entity.Order;
 import fr.emile.entity.User;
+import fr.emile.entity.Category;
+
 import fr.emile.enums.Gender;
 import fr.emile.enums.Profile;
 import fr.emile.utils.Utils;
@@ -30,6 +32,12 @@ public class DataTest implements IConstant {
 	private static List<String> streetTypeList;
 	private static List<String> domainList;
 	private static List<String> domainExtensionList;
+	private static List<String> articleList;
+	private static List<String> commentList;
+	private static List<String> categoryList;
+	
+	
+	
 
 //---------------------------------------------------------------------------------------------------
 	public static String email(String firstname, String lastname) {
@@ -37,6 +45,41 @@ public class DataTest implements IConstant {
 		return Utils.stripAccent(String.format("%s.%s@%s.%s", firstname.toLowerCase(), lastname.toLowerCase(),
 				DataTest.domain(), DataTest.domainExtension()));
 
+	}
+
+	// ---------------------------------------------------------------------------------------------------
+	public static Category genCategory() {
+		
+		String categoryName = DataTest.categoryName();
+		int dicount= Utils.randInt(5, 90);
+		boolean cumulable =Utils.randInt(0, 1)>0 ? true : false; 
+		String picUrl =  DataTest.picUrl();
+		
+		Category category = new Category(categoryName,dicount,cumulable,picUrl);
+		return category ;
+//		return  new Category(DataTest.categoryName(),Utils.randInt(5, 90),
+//				Utils.randInt(0, 1)>0 ? true : false,DataTest.picUrl());
+
+	}
+	// ---------------------------------------------------------------------------------------------------
+	public static String picUrl() {
+		
+		
+		return DataTest.url() + ".jpg";
+	}
+	// ---------------------------------------------------------------------------------------------------
+	public static String videoUrl() {
+		
+		
+		return DataTest.url() + ".mp4";
+	}
+	// ---------------------------------------------------------------------------------------------------
+	public static String url() {
+		
+		
+		return String.format("http://www.%s.%s/%s",
+				DataTest.domain(),DataTest.domainExtension(),DataTest.article().replace(' ', '-'));
+		
 	}
 
 	// ---------------------------------------------------------------------------------------------------
@@ -185,6 +228,45 @@ public class DataTest implements IConstant {
 		int position = Utils.randInt(0, firstnameList.size() - 1);
 
 		return firstnameList.get(position);
+	}
+
+	
+//---------------------------------------------------------------------------------------------------
+	public static String article() {
+		if (articleList == null) {
+			articleList = new ArrayList<String>();
+
+			ResourceBundle myResource = ResourceBundle.getBundle("testData"); // retreive data from Dbase.properties
+			String propertieValue = myResource.getString("article");
+			String propertieArray[] = propertieValue.split(";");
+
+			for (String value : propertieArray) {
+
+				articleList.add(value);
+			}
+		}
+		int position = Utils.randInt(0, articleList.size() - 1);
+
+		return articleList.get(position);
+	}
+
+//---------------------------------------------------------------------------------------------------
+	public static String categoryName() {
+		if (categoryList == null) {
+			categoryList = new ArrayList<String>();
+
+			ResourceBundle myResource = ResourceBundle.getBundle("testData"); // retreive data from Dbase.properties
+			String propertieValue = myResource.getString("category");
+			String propertieArray[] = propertieValue.split(";");
+
+			for (String value : propertieArray) {
+
+				categoryList.add(value);
+			}
+		}
+		int position = Utils.randInt(0, categoryList.size() - 1);
+
+		return categoryList.get(position);
 	}
 
 //---------------------------------------------------------------------------------------------------
