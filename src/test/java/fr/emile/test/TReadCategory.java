@@ -17,7 +17,7 @@ public class TReadCategory {
 public static void main(String[] args) {
 	
 	Utils.trace("------------- start ----------------------");
-	int userId = 101 ;
+	int userId = 1 ;
 	Category myCategory = new Category();
 	
 	ICategoryDao myCategoryDao = new CategoryDao();
@@ -29,7 +29,7 @@ public static void main(String[] args) {
 		if (myCategory == null) {
 			Utils.trace("myCategory is null");
 		}else {
-			Utils.trace(myCategory.toString());
+			Utils.trace("\n"+myCategory.toString());
 		}
 	}
 	Utils.trace("------------- End ----------------------");

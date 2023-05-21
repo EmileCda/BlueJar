@@ -40,5 +40,15 @@ public interface IConstant {
 
 	public final int BC_KEY = 0;
 	public final int PASS_KEY = 1;
-
+	
+	
+	public final String DEFAULT_NAME = "no-name";
+	public final String DEFAULT_PICTURE = "no-url.jpg";
+	public final String DEFAULT_VIDEO = "no-url.mp4";
+	public final String DEFAULT_DESCRIPTION = "no-description";
+	
+	public final double DEFAULT_PRICE = 99999999.0;
+	public final int DEFAULT_DISCOUNT = 0;
+	public final int DEFAULT_INVENTORY = 0;
+	
 }

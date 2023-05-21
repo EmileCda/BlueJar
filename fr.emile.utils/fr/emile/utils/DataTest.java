@@ -35,51 +35,38 @@ public class DataTest implements IConstant {
 	private static List<String> articleList;
 	private static List<String> commentList;
 	private static List<String> categoryList;
-	
-	
-	
+	private static List<String> itemList;
 
-//---------------------------------------------------------------------------------------------------
-	public static String email(String firstname, String lastname) {
+	private static List<String> sentenseSubjectListOneMale;
+	private static List<String> verbListOneMale;
+	private static List<String> sentenseAdverbListOneMale;
+	private static List<String> sentenseObjectListOneMale;
+	private static List<String> sentenseAdjectiveListOneMale;
 
-		return Utils.stripAccent(String.format("%s.%s@%s.%s", firstname.toLowerCase(), lastname.toLowerCase(),
-				DataTest.domain(), DataTest.domainExtension()));
+	private static List<String> sentenseSubjectListOneFemale;
+	private static List<String> verbListOneFemale;
+	private static List<String> sentenseAdverbListOneFemale;
+	private static List<String> sentenseObjectListOneFemale;
+	private static List<String> sentenseAdjectiveListOneFemale;
 
-	}
+	private static List<String> sentenseSubjectListManyMale;
+	private static List<String> verbListManyMale;
+	private static List<String> sentenseAdverbListManyMale;
+	private static List<String> sentenseObjectListManyMale;
+	private static List<String> sentenseAdjectiveListManyMale;
+
+	private static List<String> sentenseSubjectListManyFemale;
+	private static List<String> verbListManyFemale;
+	private static List<String> sentenseAdverbListManyFemale;
+	private static List<String> sentenseObjectListManyFemale;
+	private static List<String> sentenseAdjectiveListManyFemale;
 
 	// ---------------------------------------------------------------------------------------------------
 	public static Category genCategory() {
-		
-		String categoryName = DataTest.categoryName();
-		int dicount= Utils.randInt(5, 90);
-		boolean cumulable =Utils.randInt(0, 1)>0 ? true : false; 
-		String picUrl =  DataTest.picUrl();
-		
-		Category category = new Category(categoryName,dicount,cumulable,picUrl);
-		return category ;
-//		return  new Category(DataTest.categoryName(),Utils.randInt(5, 90),
-//				Utils.randInt(0, 1)>0 ? true : false,DataTest.picUrl());
 
-	}
-	// ---------------------------------------------------------------------------------------------------
-	public static String picUrl() {
-		
-		
-		return DataTest.url() + ".jpg";
-	}
-	// ---------------------------------------------------------------------------------------------------
-	public static String videoUrl() {
-		
-		
-		return DataTest.url() + ".mp4";
-	}
-	// ---------------------------------------------------------------------------------------------------
-	public static String url() {
-		
-		
-		return String.format("http://www.%s.%s/%s",
-				DataTest.domain(),DataTest.domainExtension(),DataTest.article().replace(' ', '-'));
-		
+		return new Category(DataTest.categoryName(), Utils.randInt(5, 90), Utils.randInt(0, 1) > 0 ? true : false,
+				DataTest.picUrl());
+
 	}
 
 	// ---------------------------------------------------------------------------------------------------
@@ -131,11 +118,215 @@ public class DataTest implements IConstant {
 
 	}
 
+	// ---------------------------------------------------------------------------------------------------
+	public static Item genItem() {
+		return new Item(DataTest.itemName(), DataTest.sentence(), Utils.randInt(1, 1000) / 10.0, Utils.randInt(0, 99),
+				Utils.randInt(0, 9999), DataTest.picUrl(), DataTest.videoUrl());
+
+	}
+
 //---------------------------------------------------------------------------------------------------
 	public static Address genAddress() {
 
 		return new Address(DataTest.number(), DataTest.numberType(), DataTest.streetType(), DataTest.street(),
 				DataTest.city(), DataTest.zipcode());
+	}
+
+	// ---------------------------------------------------------------------------------------------------
+	public static String sentence() {
+
+		int sujectType = subjectType();
+
+		return (String.format(" %s %s %s ", DataTest.subject(sujectType),
+				DataTest.verb(sujectType), DataTest.complement(sujectType)
+				));
+
+	}
+
+	// ---------------------------------------------------------------------------------------------------
+
+	public static int subjectType() {
+		return Utils.randInt(0, 3);
+
+	}
+
+	// ---------------------------------------------------------------------------------------------------
+	private static List<String> subjectOneMaleList;
+	private static List<String> subjectOneFemalebList;
+	private static List<String> subjectManyMaleList;
+	private static List<String> subjectManyFemaleList;
+
+	public static String subject(int sentenseType) {
+
+		switch (sentenseType) {
+
+		case 1: return DataTest.subjectOneFemale();
+		case 2: return DataTest.subjectManyMale();
+		case 3: return DataTest.subjectManyFemale();
+		default: return DataTest.subjectOneMale();
+
+		}
+
+	}
+
+	// ---------------------------------------------------------------------------------------------------
+	public static String subjectOneMale() {
+		DataTest.subjectOneMaleList = InitList(DataTest.subjectOneMaleList, "sentense.subject.one.male");
+		int position = Utils.randInt(0, DataTest.subjectOneMaleList.size() - 1);
+		return DataTest.subjectOneMaleList.get(position);
+
+	}
+	// ---------------------------------------------------------------------------------------------------
+	public static String subjectOneFemale() {
+		DataTest.subjectOneFemalebList = InitList(DataTest.subjectOneFemalebList, "sentense.subject.one.female");
+		int position = Utils.randInt(0, DataTest.subjectOneFemalebList.size() - 1);
+		return DataTest.subjectOneFemalebList.get(position);
+
+	}
+	// ---------------------------------------------------------------------------------------------------
+	public static String subjectManyMale() {
+		DataTest.subjectManyMaleList = InitList(DataTest.subjectManyMaleList, "sentense.subject.many.male");
+		int position = Utils.randInt(0, DataTest.subjectManyMaleList.size() - 1);
+		return DataTest.subjectManyMaleList.get(position);
+
+	}
+	// ---------------------------------------------------------------------------------------------------
+	public static String subjectManyFemale() {
+		DataTest.subjectManyFemaleList = InitList(DataTest.subjectManyFemaleList, "sentense.subject.many.female");
+		int position = Utils.randInt(0, DataTest.subjectManyFemaleList.size() - 1);
+		return DataTest.subjectManyFemaleList.get(position);
+
+	}
+	
+	
+	private static List<String> verbOneMaleList;
+	private static List<String> verbOneFemalebList;
+	private static List<String> verbManyMaleList;
+	private static List<String> verbManyFemaleList;
+
+	public static String verb(int sentenseType) {
+
+		switch (sentenseType) {
+
+		case 1: return DataTest.verbOneFemale();
+		case 2: return DataTest.verbManyMale();
+		case 3: return DataTest.verbManyFemale();
+		default: return DataTest.verbOneMale();
+
+		}
+
+	}
+
+	// ---------------------------------------------------------------------------------------------------
+	public static String verbOneMale() {
+		DataTest.verbOneMaleList = InitList(DataTest.verbOneMaleList, "sentense.verb.one.male");
+		int position = Utils.randInt(0, DataTest.verbOneMaleList.size() - 1);
+		return DataTest.verbOneMaleList.get(position);
+
+	}
+	// ---------------------------------------------------------------------------------------------------
+	public static String verbOneFemale() {
+		DataTest.verbOneFemalebList = InitList(DataTest.verbOneFemalebList, "sentense.verb.one.female");
+		int position = Utils.randInt(0, DataTest.verbOneFemalebList.size() - 1);
+		return DataTest.verbOneFemalebList.get(position);
+
+	}
+	// ---------------------------------------------------------------------------------------------------
+	public static String verbManyMale() {
+		DataTest.verbManyMaleList = InitList(DataTest.verbManyMaleList, "sentense.verb.many.male");
+		int position = Utils.randInt(0, DataTest.verbManyMaleList.size() - 1);
+		return DataTest.verbManyMaleList.get(position);
+
+	}
+	// ---------------------------------------------------------------------------------------------------
+	public static String verbManyFemale() {
+		DataTest.verbManyFemaleList = InitList(DataTest.verbManyFemaleList, "sentense.verb.many.female");
+		int position = Utils.randInt(0, DataTest.verbManyFemaleList.size() - 1);
+		return DataTest.verbManyFemaleList.get(position);
+
+	}
+
+	
+	// ---------------------------------------------------------------------------------------------------
+	
+
+	private static List<String> complementOneMaleList;
+	private static List<String> complementOneFemalebList;
+	private static List<String> complementManyMaleList;
+	private static List<String> complementManyFemaleList;
+
+	public static String complement(int sentenseType) {
+
+		switch (sentenseType) {
+
+		case 1: return DataTest.complementOneFemale();
+		case 2: return DataTest.complementManyMale();
+		case 3: return DataTest.complementManyFemale();
+		default: return DataTest.complementOneMale();
+
+		}
+
+	}
+
+	// ---------------------------------------------------------------------------------------------------
+	public static String complementOneMale() {
+		DataTest.complementOneMaleList = InitList(DataTest.complementOneMaleList, "sentense.complement.one.male");
+		int position = Utils.randInt(0, DataTest.complementOneMaleList.size() - 1);
+		return DataTest.complementOneMaleList.get(position);
+
+	}
+	// ---------------------------------------------------------------------------------------------------
+	public static String complementOneFemale() {
+		DataTest.complementOneFemalebList = InitList(DataTest.complementOneFemalebList, "sentense.complement.one.female");
+		int position = Utils.randInt(0, DataTest.complementOneFemalebList.size() - 1);
+		return DataTest.complementOneFemalebList.get(position);
+
+	}
+	// ---------------------------------------------------------------------------------------------------
+	public static String complementManyMale() {
+		DataTest.complementManyMaleList = InitList(DataTest.complementManyMaleList, "sentense.complement.many.male");
+		int position = Utils.randInt(0, DataTest.complementManyMaleList.size() - 1);
+		return DataTest.complementManyMaleList.get(position);
+
+	}
+	// ---------------------------------------------------------------------------------------------------
+	public static String complementManyFemale() {
+		DataTest.complementManyFemaleList = InitList(DataTest.complementManyFemaleList, "sentense.complement.many.female");
+		int position = Utils.randInt(0, DataTest.complementManyFemaleList.size() - 1);
+		return DataTest.complementManyFemaleList.get(position);
+
+	}
+
+	
+	// ---------------------------------------------------------------------------------------------------
+	
+	// ---------------------------------------------------------------------------------------------------
+
+	public static String email(String firstname, String lastname) {
+
+		return Utils.stripAccent(String.format("%s.%s@%s.%s", firstname.toLowerCase(), lastname.toLowerCase(),
+				DataTest.domain(), DataTest.domainExtension()));
+
+	}
+
+	// ---------------------------------------------------------------------------------------------------
+	public static String picUrl() {
+
+		return DataTest.url() + ".jpg";
+	}
+
+	// ---------------------------------------------------------------------------------------------------
+	public static String videoUrl() {
+
+		return DataTest.url() + ".mp4";
+	}
+
+	// ---------------------------------------------------------------------------------------------------
+	public static String url() {
+
+		return String.format("http://www.%s.%s/%s", DataTest.domain(), DataTest.domainExtension(),
+				DataTest.article().replace(' ', '-'));
+
 	}
 
 //---------------------------------------------------------------------------------------------------
@@ -230,14 +421,13 @@ public class DataTest implements IConstant {
 		return firstnameList.get(position);
 	}
 
-	
 //---------------------------------------------------------------------------------------------------
 	public static String article() {
 		if (articleList == null) {
 			articleList = new ArrayList<String>();
 
 			ResourceBundle myResource = ResourceBundle.getBundle("testData"); // retreive data from Dbase.properties
-			String propertieValue = myResource.getString("article");
+			String propertieValue = myResource.getString("item.name");
 			String propertieArray[] = propertieValue.split(";");
 
 			for (String value : propertieArray) {
@@ -351,7 +541,41 @@ public class DataTest implements IConstant {
 		return streetTypeList.get(position);
 	}
 
-//---------------------------------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------------------------------
+	public static String itemName() {
+		if (itemList == null) {
+			itemList = new ArrayList<String>();
+			ResourceBundle myResource = ResourceBundle.getBundle("testData"); // retreive data from Dbase.properties
+			String propertieValue = myResource.getString("item.name");
+			String propertieArray[] = propertieValue.split(";");
+
+			for (String value : propertieArray) {
+				itemList.add(Utils.firstToUpper(value));
+			}
+		}
+		int position = Utils.randInt(0, itemList.size() - 1);
+
+		return itemList.get(position);
+	}
+
+
+	// ---------------------------------------------------------------------------------------------------
+	public static List<String> InitList(List<String> listName, String Key) {
+		if (listName == null) {
+			listName = new ArrayList<String>();
+			ResourceBundle myResource = ResourceBundle.getBundle("testData"); // retreive data from Dbase.properties
+			String propertieValue = myResource.getString(Key);
+			String propertieArray[] = propertieValue.split(";");
+			for (String value : propertieArray) {
+
+				listName.add(value);
+			}
+		}
+		return listName;
+	}
+
+
+	// ---------------------------------------------------------------------------------------------------
 	public static String city() {
 		if (cityList == null) {
 			cityList = new ArrayList<String>();
