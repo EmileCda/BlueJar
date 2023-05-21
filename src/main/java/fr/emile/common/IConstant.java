@@ -51,4 +51,7 @@ public interface IConstant {
 	public final int DEFAULT_DISCOUNT = 0;
 	public final int DEFAULT_INVENTORY = 0;
 	
+	public final int DEFAULT_GRADE = 5;
+	
+	
 }

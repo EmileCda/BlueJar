@@ -22,59 +22,34 @@ import fr.emile.utils.Utils;
 //check add bank card + encrypt :ok
 
 ////*************** test result *********************************************************************
-public class TCreateUser implements IConstant {
+public class TUpdateUser implements IConstant {
 
 	public static void main(String[] args) {
 
 		Utils.trace("------------- start ----------------------");
+		int userId = 1;
 		User myUser = new User();
-
 
 		IUserDao myUserDao = new UserDao();
 		try {
-
-			for (int index = 0 ; index < 10; index ++) {
-				myUser = new User( DataTest.genUser());
-				
-				myUser = addAddress(myUser );
-				myUser = addBankCard(myUser );
-					
-				myUser = myUserDao.create(myUser);
-			}
-
+			myUser = myUserDao.read(userId);
 		} catch (Exception e) {
 			Utils.trace("catch myUserDao.add(myUser) ");
 			e.printStackTrace();
-		} 
-		
+		} finally {
+			if (myUser != null) {
+				Utils.trace(myUser.toString());
+				myUser.decrypt();
+				Utils.trace(myUser.toString());
+			} else {
+				Utils.trace("myUser is null");
+			}
+		}
 		Utils.trace("------------- End ----------------------");
 
 	}
 	//-------------------------------------------------------------------------------------------------
-		public static User addBankCard(User myUser) {
-			
-			int max = Utils.randInt(0, 4);
-			
-			for (int indice = 1 ; indice <= max ; indice++)
-			{
-				BankCard bankCard= DataTest.genBankCardNoName();
-				Utils.trace(bankCard.toString());
-				myUser.addBankCard (bankCard);
-			}
-			
-			return myUser;
-			
-		}
-		//-------------------------------------------------------------------------------------------------
-		public static User addComment(User myUser, Item myItem) {
-			
-				Comment comment= DataTest.genComment();
-				myUser.addComment(comment);
-				myItem.addComment(comment);
-			
-			return myUser;
-			
-		}
+
 		//-------------------------------------------------------------------------------------------------
 		public static User addAddress(User myUser) {
 			

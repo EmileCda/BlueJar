@@ -43,3 +43,38 @@
 1. sécurité codage
 1. sécurité des accèss (login)
 1. sécurité des données (cryptage des données sensible)
+
+# les entités
+
+## Order.java
+
+## Param.java
+
+## Address.java
+
+## BankCard.java
+
+## Category.java
+
+## Code.java
+
+## OrderLine.java
+
+## Comment.java
+
+## Item.java
+
+## CartItem.java
+
+## User.java
+
+lors de la lecture d'un utilisateur le systeme doit récuperer en même temps les objects suivants :
+
+1. Address.java
+1. BankCard.java
+1. CartItem.java
+
+les objets a récupé en différé :
+
+1. Order.java
+1. Comment.java

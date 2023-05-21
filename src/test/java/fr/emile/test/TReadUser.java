@@ -11,30 +11,29 @@ import fr.emile.utils.Utils;
 //check decript password : ok 
 ////*************** test result *********************************************************************
 
-
-
 public class TReadUser {
-public static void main(String[] args) {
-	
-	Utils.trace("------------- start ----------------------");
-	int userId = 6 ;
-	User myUser = new User();
-	
-	IUserDao myUserDao = new UserDao();
-	try {
-		myUser = myUserDao.read(userId);
-	} catch (Exception e) {
-		Utils.trace("catch myUserDao.add(myUser) ");
-		e.printStackTrace();
-	}finally {
-		
-		if (myUser != null) {
-			Utils.trace(myUser.toString());
-			myUser.decrypt();
-			Utils.trace(myUser.toString());
+	public static void main(String[] args) {
+
+		Utils.trace("------------- start ----------------------");
+		int userId = 1;
+		User myUser = new User();
+
+		IUserDao myUserDao = new UserDao();
+		try {
+			myUser = myUserDao.read(userId);
+		} catch (Exception e) {
+			Utils.trace("catch myUserDao.add(myUser) ");
+			e.printStackTrace();
+		} finally {
+			if (myUser != null) {
+				Utils.trace(myUser.toString());
+				myUser.decrypt();
+				Utils.trace(myUser.toString());
+			} else {
+				Utils.trace("myUser is null");
+			}
 		}
-	}
-	Utils.trace("------------- End ----------------------");
+		Utils.trace("------------- End ----------------------");
 
 	}
 }

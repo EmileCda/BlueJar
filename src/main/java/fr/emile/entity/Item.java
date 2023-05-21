@@ -26,67 +26,70 @@ import javax.persistence.Transient;
 
 import fr.emile.common.IConstant;
 
-
 @Entity
 @Table(name = "item")
 public class Item implements IConstant, Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
-	private int id; 
-	private String  name;
-	private String  description;
+	private int id;
+	private String name;
+	private String description;
 	private double price;
 	private int discount; // in %
-	private int  inventory; 
+	private int inventory;
 	@Column(name = "is_sallable")
-	private boolean  isSalable; 
-	private String  picture ;
-	private String  video;
+	private boolean isSalable;
+	private String picture;
+	private String video;
 
-	
 	@ManyToOne
 	@JoinColumn(name = "category_id", nullable = false)
 //	@Transient
-	private Category  category;
+	private Category category;
 
-//	@OneToMany(cascade = CascadeType.ALL, mappedBy = "item", fetch = FetchType.LAZY)
-	@Transient
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "item", fetch = FetchType.LAZY)
+//	@Transient
 	private List<Comment> commentList;
 
-	
-	
-	
-	
 	public Item() {
 
-		this(DEFAULT_ID,DEFAULT_NAME,DEFAULT_DESCRIPTION,
-				DEFAULT_PRICE,DEFAULT_DISCOUNT,DEFAULT_INVENTORY,
-				true,DEFAULT_PICTURE,DEFAULT_VIDEO);
+		this(DEFAULT_ID, DEFAULT_NAME, DEFAULT_DESCRIPTION, DEFAULT_PRICE, DEFAULT_DISCOUNT, DEFAULT_INVENTORY, true,
+				DEFAULT_PICTURE, DEFAULT_VIDEO);
 	}
 
-	public Item( String name, String description, 
-			double price, int discount, int inventory,
-			String picture, String video) {
-		
-		this(DEFAULT_ID,name,description,price,discount,inventory,true,picture,video);
+	public Item(String name, String description, double price, int discount, int inventory, String picture,
+			String video) {
+
+		this(DEFAULT_ID, name, description, price, discount, inventory, true, picture, video);
 	}
-	
-	public Item(int id, String name, String description, 
-			double price, int discount, int inventory,
-			boolean isSalable, String picture, String video) {
-		this.setId ( id);
-		this.setName ( name);
-		this.setDescription ( description);
-		this.setPrice ( price);
-		this.setDiscount ( discount);
-		this.setInventory ( inventory);
-		this.setSalable ( isSalable);
-		this.setPicture ( picture);
-		this.setVideo ( video);
-		this.setCategory ( category);
+
+	public Item(int id, String name, String description, double price, int discount, int inventory, boolean isSalable,
+			String picture, String video) {
+		this.setId(id);
+		this.setName(name);
+		this.setDescription(description);
+		this.setPrice(price);
+		this.setDiscount(discount);
+		this.setInventory(inventory);
+		this.setSalable(isSalable);
+		this.setPicture(picture);
+		this.setVideo(video);
+		this.setCategory(category);
 		commentList = new ArrayList<Comment>();
 
-}
+	}
+
+	public void addComment(Comment comment) {
+
+		if (this.commentList == null) {
+			commentList = new ArrayList<Comment>();
+
+		}
+		comment.setItem(this);
+		;
+		this.getCommentList().add(comment);
+
+	}
 
 	public int getId() {
 		return id;
@@ -178,14 +181,22 @@ public class Item implements IConstant, Serializable {
 
 	@Override
 	public String toString() {
-		return String.format(
-				"id[%d] %s %s %.2f -%d%% %d%s %s %s",
-				getId(), getName(), getDescription(), 
-				getPrice(), getDiscount(),getInventory(), 
-				isSalable()?" vendable":"",
-				getPicture(), getVideo());
+
+		String returnString = "";
+
+		returnString += String.format("id[%d] %s %s %.2f -%d%% %d%s %s %s\n", getId(), getName(), getDescription(),
+				getPrice(), getDiscount(), getInventory(), isSalable() ? " vendable" : "", getPicture(), getVideo());
+
+		if ((this.getCommentList() != null) && (this.getCommentList().size() > 0)) {
+
+			for (Comment comment : this.getCommentList()) {
+
+				returnString += "\t\t" + comment.toString() + "\n";
+			}
+
+		}
+
+		return returnString;
 	}
-	 
-	
 
 }

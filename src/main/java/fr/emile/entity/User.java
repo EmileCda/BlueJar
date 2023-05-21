@@ -53,8 +53,9 @@ public class User implements IConstant {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
 //	@Transient
 	private List<BankCard> bankCardList;
-	@Transient
-	private List<Comment> commentList;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
+//	@Transient
+	private List<Comment> commentList = null;
 	@Transient
 	private List<Item> itemList; // meaning cart
 
@@ -140,7 +141,18 @@ public class User implements IConstant {
 		address.setUser(this);
 		this.addressList.add(address);
 	}
+	// -------------------------------------------------------------------------------------------------
+	public void addComment(Comment comment) {
 
+		if (this.commentList == null) {
+			commentList = new ArrayList<Comment>();
+
+		}
+		comment.setUser(this);
+		
+		this.getCommentList().add(comment);
+
+	}
 	// -------------------------------------------------------------------------------------------------
 	public void addBankCard(BankCard bankCard) {
 
