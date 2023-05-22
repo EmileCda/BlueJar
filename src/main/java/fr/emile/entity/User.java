@@ -48,16 +48,22 @@ public class User implements IConstant {
 	private String phone;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
 	private List<Address> addressList;
-	@Transient
-	private List<Order> orderList;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
 //	@Transient
 	private List<BankCard> bankCardList;
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
 //	@Transient
+	private List<CartItem> cartItemList; // meaning cart : item + quantity
+
+	
+	@OneToMany(cascade = CascadeType.DETACH, mappedBy = "user", fetch = FetchType.LAZY)
+//	@Transient
+	private List<Order> orderList;
+	
+	@OneToMany(cascade = CascadeType.DETACH, mappedBy = "user", fetch = FetchType.LAZY)
+//	@Transient
 	private List<Comment> commentList = null;
-	@Transient
-	private List<Item> itemList; // meaning cart
 
 
 	public User() {
@@ -78,13 +84,13 @@ public class User implements IConstant {
 		this(copyUser.getId(), copyUser.getGender(), copyUser.getFirstname(), copyUser.getLastname(),
 				copyUser.getBirthdateJava(), copyUser.getIsActif(), copyUser.getProfile(), copyUser.getEmail(),
 				copyUser.getClearPass(), copyUser.getPass(), copyUser.getPhone(), copyUser.getAddressList(),
-				copyUser.getOrderList(), copyUser.getBankCardList(), copyUser.getCommentList(), copyUser.getItemList());
+				copyUser.getOrderList(), copyUser.getBankCardList(), copyUser.getCommentList(), copyUser.getCartItemList());
 
 	}
 
 	public User(int id, Gender gender, String firstname, String lastname, Date birthdate, Boolean isActif,
 			Profile profile, String email, String clearPass, byte[] pass, String phone, List<Address> addressList,
-			List<Order> orderList, List<BankCard> bankCardList, List<Comment> commentList, List<Item> itemList
+			List<Order> orderList, List<BankCard> bankCardList, List<Comment> commentList, List<CartItem> cartItemList
 		) {
 		this.setId(id);
 		this.setGender(gender);
@@ -101,13 +107,8 @@ public class User implements IConstant {
 		this.setOrderList(orderList);
 		this.setBankCardList(bankCardList);
 		this.setCommentList(commentList);
-		this.setItemList(itemList);
+		this.setCartItemList(cartItemList);
 
-		this.addressList = new ArrayList<Address>();
-		this.orderList = new ArrayList<Order>();
-		this.bankCardList = new ArrayList<BankCard>();
-		this.commentList = new ArrayList<Comment>();
-		this.itemList = new ArrayList<Item>();
 
 	}
 
@@ -132,6 +133,15 @@ public class User implements IConstant {
 		
 	}
 
+	// -------------------------------------------------------------------------------------------------
+	public void addCardItem(CartItem cartItem) {
+
+		if (this.cartItemList == null)
+			this.cartItemList = new ArrayList<CartItem>();
+		
+		cartItem.setUser(this);
+		this.cartItemList.add(cartItem);
+	}
 	// -------------------------------------------------------------------------------------------------
 	public void addAddress(Address address) {
 
@@ -267,16 +277,17 @@ public class User implements IConstant {
 		this.commentList = commentList;
 	}
 
-	public List<Item> getItemList() {
-		return itemList;
-	}
-
-	public void setItemList(List<Item> itemList) {
-		this.itemList = itemList;
-	}
-
+	
 
 	
+	public List<CartItem> getCartItemList() {
+		return cartItemList;
+	}
+
+	public void setCartItemList(List<CartItem> cartItemList) {
+		this.cartItemList = cartItemList;
+	}
+
 	public Date getBirthdateJava() {
 		return birthdateJava;
 	}
@@ -303,7 +314,6 @@ public class User implements IConstant {
 
 	public byte[] getPass() {
 		
-		System.out.printf("ligen 270 %s\n",Arrays.toString(this.pass));
 		return this.pass;
 	}
 
@@ -311,12 +321,21 @@ public class User implements IConstant {
 		this.pass = pass;
 	}
 
+	public String getFullName() {
+
+		return String.format("%s%s %s", 
+		 getGender().getTitle()!=""? getGender().getTitle()+" ":"", getFirstname(), getLastname());
+	}
+
 	@Override
 	public String toString() {
 
 		String stringDisplay = "";
-		stringDisplay += String.format("id:%d [%s] %s %s %s, née %s profil:%s, %s %s tel: %s ]\n", getId(),
-				getClearPass(), getGender().getTitle(), getFirstname(), getLastname(),
+		stringDisplay += String.format("id:%d [%s] %s, né%s le %s profil:%s, %s %s tel: %s\n", getId(),
+				getClearPass(), 
+				this.getFullName(),
+				getGender().getTitle(), getFirstname(), getLastname(),
+				getGender().getId()==1 ?"e":"",
 				Utils.date2String(getBirthdateJava(), "dd/MM/yyyy"), getProfile().getName(),
 				getIsActif() ? "actif" : "non-actif", getEmail(), getPhone());
 

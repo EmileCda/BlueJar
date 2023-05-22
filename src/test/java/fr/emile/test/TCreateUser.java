@@ -53,13 +53,13 @@ public class TCreateUser implements IConstant {
 	//-------------------------------------------------------------------------------------------------
 		public static User addBankCard(User myUser) {
 			
-			int max = Utils.randInt(0, 4);
+			int max = Utils.randInt(1, 4);
 			
 			for (int indice = 1 ; indice <= max ; indice++)
 			{
 				BankCard bankCard= DataTest.genBankCardNoName();
-				Utils.trace(bankCard.toString());
 				myUser.addBankCard (bankCard);
+				Utils.trace(bankCard.toString());
 			}
 			
 			return myUser;
@@ -78,7 +78,7 @@ public class TCreateUser implements IConstant {
 		//-------------------------------------------------------------------------------------------------
 		public static User addAddress(User myUser) {
 			
-			int maxAddress = Utils.randInt(0, 4);
+			int maxAddress = Utils.randInt(1, 4);
 			
 			for (int indice = 1 ; indice <= maxAddress ; indice++)
 			{

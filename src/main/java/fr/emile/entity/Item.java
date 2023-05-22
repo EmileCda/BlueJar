@@ -47,9 +47,13 @@ public class Item implements IConstant, Serializable {
 //	@Transient
 	private Category category;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "item", fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.DETACH, mappedBy = "item", fetch = FetchType.LAZY)
 //	@Transient
 	private List<Comment> commentList;
+	
+//	@OneToOne(cascade = CascadeType.DETACH, mappedBy = "item", fetch = FetchType.LAZY)
+	@Transient
+	private CartItem cartItem; 
 
 	public Item() {
 
@@ -76,6 +80,7 @@ public class Item implements IConstant, Serializable {
 		this.setVideo(video);
 		this.setCategory(category);
 		commentList = new ArrayList<Comment>();
+//		this.setCartItem(cartItem);
 
 	}
 
@@ -90,6 +95,7 @@ public class Item implements IConstant, Serializable {
 		this.getCommentList().add(comment);
 
 	}
+
 
 	public int getId() {
 		return id;
@@ -178,6 +184,18 @@ public class Item implements IConstant, Serializable {
 	public void setCommentList(List<Comment> commentList) {
 		this.commentList = commentList;
 	}
+
+
+//
+//	public CartItem getCartItem() {
+//		return cartItem;
+//	}
+//
+//	public void setCartItem(CartItem cartItem) {
+//		this.cartItem = cartItem;
+//	}
+
+
 
 	@Override
 	public String toString() {

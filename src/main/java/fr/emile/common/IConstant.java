@@ -13,6 +13,9 @@ public interface IConstant {
 	public final String DEFAULT_BANK_CARD_NUMBER = "1000200030004000";
 	public final String DEFAULT_BANK_CARD_CRYPTO = "XYZ";
 	public final Date DEFAULT_DATE = Utils.string2Date("01/01/1970", "dd/MM/yyyy");
+	public final Date DATE_NOW = new Date();
+	public final Date DEFAULT_DELIVERY_DATE = Utils.addDate(DATE_NOW,5);
+	
 	
 	public final String DEFAULT_FIRSTNAME = "No-Firstname";
 	public final String DEFAULT_LASTNAME = "No-Lastname";
@@ -46,12 +49,17 @@ public interface IConstant {
 	public final String DEFAULT_PICTURE = "no-url.jpg";
 	public final String DEFAULT_VIDEO = "no-url.mp4";
 	public final String DEFAULT_DESCRIPTION = "no-description";
+	public final String DEFAULT_ORDER_NUMBER = "temp-order-number-1298";
 	
-	public final double DEFAULT_PRICE = 99999999.0;
+	public final float DEFAULT_PRICE = 999;
 	public final int DEFAULT_DISCOUNT = 0;
 	public final int DEFAULT_INVENTORY = 0;
 	
 	public final int DEFAULT_GRADE = 5;
+	public final int DEFAULT_QUANTITY= 1;
+	public final float DEFAULT_DOUBLE_VALUE=  0;
+	
+	
 	
 	
 }

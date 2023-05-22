@@ -70,6 +70,20 @@ public class DataTest implements IConstant {
 	}
 
 	// ---------------------------------------------------------------------------------------------------
+	public static String genOrderNumber(int id) {
+		
+		
+		return String.format("DT%s-ID%d-RN%06d-FR",Utils.date2String(DATE_NOW, "yyyyMMdd"),id,Utils.randInt(0, 999999) );
+		
+		
+	}
+
+	// ---------------------------------------------------------------------------------------------------
+	public static Comment genComment() {
+		return new Comment (DataTest.sentence(), Utils.randInt(0, 5));
+	}
+
+	// ---------------------------------------------------------------------------------------------------
 	public static BankCard genBankCardNoName() {
 
 		BankCard myBankCard = new BankCard();
@@ -137,8 +151,8 @@ public class DataTest implements IConstant {
 
 		int sujectType = subjectType();
 
-		return (String.format(" %s %s %s ", DataTest.subject(sujectType),
-				DataTest.verb(sujectType), DataTest.complement(sujectType)
+		return (String.format(" %s %s %s %s ", DataTest.subject(sujectType),
+				DataTest.verb(sujectType), DataTest.subject(sujectType), DataTest.complement(sujectType)
 				));
 
 	}

@@ -2,6 +2,7 @@ package fr.emile.model.implement;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import fr.emile.common.Common;
 import fr.emile.entity.Item;
@@ -67,4 +68,5 @@ public class ItemDao implements IItemDao {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
 }

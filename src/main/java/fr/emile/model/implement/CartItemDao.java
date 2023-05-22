@@ -1,32 +1,70 @@
 package fr.emile.model.implement;
 
-import fr.emile.entity.Address;
-import fr.emile.model.interfaces.IAddressDao;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
-public class CartItemDao implements IAddressDao {
+import fr.emile.common.Common;
+import fr.emile.entity.CartItem;
+import fr.emile.model.connect.DBConnect;
+import fr.emile.model.interfaces.ICartItemDao;
+import fr.emile.utils.Utils;
+
+public final class CartItemDao implements ICartItemDao {
 
 	@Override
-	public Address create(Address address) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public CartItem create (CartItem cartItem)  throws Exception{
+		Utils.trace("ici");
+		Session session = DBConnect.getSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+			session.save(cartItem);
+			transaction.commit();
+
+
+		} catch (Exception e) {
+
+			Utils.trace("catch create "+ e.toString());
+			if (transaction != null) {
+				transaction.rollback();
+			}
+
+		} finally {
+			Common.closeSession( session);
+
+		}
+		return cartItem;
+	}
+//------------------------------------------------------------------------------------------------
+	@Override
+	public CartItem read(int id) throws Exception {
+		Session session = DBConnect.getSession();
+		CartItem cartItem = null;
+		try {
+			cartItem= new CartItem();
+			cartItem = session.find(CartItem.class, id);
+
+		} catch (Exception e) {
+			Utils.trace("catch Read " +e.toString());
+
+		} finally {
+			Common.closeSession( session);
+		}
+
+		return cartItem;
 	}
 
 	@Override
-	public Address read(int id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int update(Address address) throws Exception {
+	public int update(CartItem cartItem) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int delete(Address address) throws Exception {
+	public int delete(CartItem cartItem) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
 
 }

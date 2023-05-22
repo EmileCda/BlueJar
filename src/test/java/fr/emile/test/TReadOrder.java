@@ -1,34 +1,38 @@
 package fr.emile.test;
 
-import fr.emile.entity.BankCard;
-import fr.emile.model.implement.BankCardDao;
-import fr.emile.model.interfaces.IBankCardDao;
+import fr.emile.entity.Order;
+import fr.emile.model.implement.OrderDao;
+import fr.emile.model.interfaces.IOrderDao;
 import fr.emile.utils.DataTest;
 import fr.emile.utils.Utils;
 
 //*************** test result *********************************************************************
-//check read user by id (ok)
+//check read order by id (ok)
 //check decript password : ok 
 ////*************** test result *********************************************************************
 
 
 
-public class TReadBankCard {
+public class TReadOrder {
 public static void main(String[] args) {
 	
 	Utils.trace("------------- start ----------------------");
-	int id = 16 ;
-	BankCard bankCard=  new BankCard();
+	int orderId = 4
+			;
+	Order myOrder = new Order();
 	
-	IBankCardDao myBankCardDao = new BankCardDao();
+	IOrderDao myOrderDao = new OrderDao();
 	try {
-		bankCard = myBankCardDao.read(id);
+		myOrder = myOrderDao.read(orderId);
 	} catch (Exception e) {
-		Utils.trace("catch myUserDao.add(myUser) ");
+		Utils.trace("catch myOrderDao.add(myOrder) ");
 		e.printStackTrace();
 	}finally {
-		Utils.trace(bankCard.toString());
-		
+		if (myOrder != null) {
+		Utils.trace("\n"+myOrder.toString());
+		}else{ 
+			Utils.trace("myOrder is null");
+		}
 	}
 	Utils.trace("------------- End ----------------------");
 

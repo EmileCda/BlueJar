@@ -38,18 +38,28 @@ public class Comment implements IConstant, Serializable {
 	
 	
 	public Comment() {
-		this(DEFAULT_ID,DEFAULT_TEXT,DEFAULT_GRADE);
+		this(DEFAULT_ID,DEFAULT_TEXT,DEFAULT_GRADE,null,null);
 	}
-	public Comment(String text, int note) {
+	public Comment(String text, int grade) {
 
-		this(DEFAULT_ID,text,note);
+		this(DEFAULT_ID,text,grade,null,null);
 	}
 	
-	public Comment(int id, String text, int note) {
+	
+	public Comment(int id, String text, int grade, Item item, User user) {
 		this.setId ( id);
 		this.setText ( text);
-		this.setGrade ( note);
+		this.setGrade ( grade);
+		this.setItem ( item);
+		this.setUser ( user);
 	}
+	
+	
+	
+	
+	
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -90,7 +100,14 @@ public class Comment implements IConstant, Serializable {
 	}
 	@Override
 	public String toString() {
-		return String.format("id[%d] %s stars: %s", getId(), getGrade(), getText());
+		return String.format("id[%d] de %s %s %s pour le produit:[%d] %s\n%s stars: %s", 
+				getId(), 
+				getUser().getGender().getTitle(),
+				getUser().getFirstname(),
+				getUser().getLastname(),
+				getItem().getId(),
+				getItem().getName(),
+				getGrade(), getText());
 	}
 
 	

@@ -1,7 +1,10 @@
 package fr.emile.test;
 
+import fr.emile.entity.Item;
 import fr.emile.entity.User;
+import fr.emile.model.implement.ItemDao;
 import fr.emile.model.implement.UserDao;
+import fr.emile.model.interfaces.IItemDao;
 import fr.emile.model.interfaces.IUserDao;
 import fr.emile.utils.DataTest;
 import fr.emile.utils.Utils;
@@ -11,29 +14,28 @@ import fr.emile.utils.Utils;
 //check decript password : ok 
 ////*************** test result *********************************************************************
 
-public class TReadUser {
+public class TReadItem {
 	public static void main(String[] args) {
 
 		Utils.trace("------------- start ----------------------");
-		int userId = 2;
-		User myUser = new User();
+		int itemId = 1;
+		Item myItem = new Item();
 
-		IUserDao myUserDao = new UserDao();
+		IItemDao myItemDao = new ItemDao();
 		try {
-			myUser = myUserDao.read(userId);
+			myItem = myItemDao.read(itemId);
 		} catch (Exception e) {
-			Utils.trace("catch myUserDao.add(myUser) ");
+			Utils.trace("catch myItemDao.read(myItem) ");
 			e.printStackTrace();
 		} finally {
-			if (myUser != null) {
-				Utils.trace(myUser.toString());
-				myUser.decrypt();
-				Utils.trace(myUser.toString());
+			if (myItem != null) {
+				Utils.trace(myItem.toString());
 			} else {
-				Utils.trace("myUser is null");
+				Utils.trace("myItem is null");
 			}
 		}
 		Utils.trace("------------- End ----------------------");
 
 	}
+
 }

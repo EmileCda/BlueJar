@@ -4,7 +4,7 @@ import java.util.List;
 
 public enum Gender {
 
-	MALE("Homme","M.",0), FEMALE("Femme","Mme",1), OTHER("autre","?",2),NULL("","",3) ;
+	MALE("Homme","M.",0), FEMALE("Femme","Mme",1), OTHER("autre","",2),NULL("","",3) ;
 	
 	private String value;
 	private String title;

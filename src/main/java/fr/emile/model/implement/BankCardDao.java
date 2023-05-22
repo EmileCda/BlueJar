@@ -43,10 +43,8 @@ public class BankCardDao implements IBankCardDao {
 			bankCard= new BankCard();
 			bankCard = session.find(BankCard.class, id);
 			if (bankCard != null) {
-				Utils.trace(bankCard.toString());
 				bankCard.decrypt();
-				Utils.trace(bankCard.toString());
-			}else Utils.trace("bankCard null");
+			}
 
 
 		} catch (Exception e) {

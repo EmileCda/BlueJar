@@ -25,7 +25,8 @@ public class TCreateCategory implements IConstant {
 		try {
 			for (int index = 0; index < MAX_CATEGORY; index++) {
 				Category category = DataTest.genCategory();
-				int maxItem = Utils.randInt(0,10);
+//				int maxItem = Utils.randInt(0,10);
+				int maxItem = 1 ;
 				
 				for (int nbItem = 0 ; nbItem < maxItem; nbItem++) {
 					Item item = DataTest.genItem();

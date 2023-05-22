@@ -11,7 +11,6 @@ import fr.emile.model.interfaces.IUserDao;
 import fr.emile.utils.DataTest;
 import fr.emile.utils.Utils;
 
-
 //*************** test result *********************************************************************
 //check create user + insert in database (ok)
 //check encript password : ok 
@@ -27,43 +26,45 @@ public class TUpdateUser implements IConstant {
 	public static void main(String[] args) {
 
 		Utils.trace("------------- start ----------------------");
-		int userId = 1;
+		int idUser = 2;
+		User user = getUser(idUser);
+//		user = addOrder(user);
+		
+		
+		
+		Utils.trace("------------- End ----------------------");
+
+	}
+
+// -------------------------------------------------------------------------------------------------
+	public static User addOrder(User user) {
+
+		Item item = 
+		
+		return user;
+
+	}
+
+// -------------------------------------------------------------------------------------------------
+	public static User getUser(int Id) {
+
 		User myUser = new User();
 
 		IUserDao myUserDao = new UserDao();
 		try {
-			myUser = myUserDao.read(userId);
+			myUser = myUserDao.read(Id);
 		} catch (Exception e) {
 			Utils.trace("catch myUserDao.add(myUser) ");
 			e.printStackTrace();
 		} finally {
 			if (myUser != null) {
-				Utils.trace(myUser.toString());
-				myUser.decrypt();
-				Utils.trace(myUser.toString());
+				Utils.trace("\n" + myUser.toString());
 			} else {
 				Utils.trace("myUser is null");
 			}
 		}
-		Utils.trace("------------- End ----------------------");
-
+		return myUser;
 	}
-	//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
 
-		//-------------------------------------------------------------------------------------------------
-		public static User addAddress(User myUser) {
-			
-			int maxAddress = Utils.randInt(0, 4);
-			
-			for (int indice = 1 ; indice <= maxAddress ; indice++)
-			{
-				Address address = DataTest.genAddress();
-				myUser.addAddress(address);
-			}
-			
-			return myUser;
-			
-		}
-	//-------------------------------------------------------------------------------------------------
-	
 }

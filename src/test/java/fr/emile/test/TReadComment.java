@@ -28,7 +28,7 @@ public static void main(String[] args) {
 		e.printStackTrace();
 	}finally {
 		if (myComment != null) {
-		Utils.trace(myComment.toString());
+		Utils.trace("\n"+myComment.toString());
 		}else{ 
 			Utils.trace("myComment is null");
 		}

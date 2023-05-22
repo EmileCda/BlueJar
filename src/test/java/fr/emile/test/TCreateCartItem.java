@@ -1,12 +1,15 @@
 package fr.emile.test;
 
 import fr.emile.common.IConstant;
+import fr.emile.entity.CartItem;
 import fr.emile.entity.Comment;
 import fr.emile.entity.Item;
 import fr.emile.entity.User;
+import fr.emile.model.implement.CartItemDao;
 import fr.emile.model.implement.CommentDao;
 import fr.emile.model.implement.ItemDao;
 import fr.emile.model.implement.UserDao;
+import fr.emile.model.interfaces.ICartItemDao;
 import fr.emile.model.interfaces.ICommentDao;
 import fr.emile.model.interfaces.IItemDao;
 import fr.emile.model.interfaces.IUserDao;
@@ -18,7 +21,7 @@ import fr.emile.utils.Utils;
 //check create comment + insert in database  : ok 
 //
 ////*************** test result *********************************************************************
-public class TCreateComment implements IConstant {
+public class TCreateCartItem implements IConstant {
 
 	public static void main(String[] args) {
 
@@ -26,23 +29,26 @@ public class TCreateComment implements IConstant {
 		int maxIndex = 30;
 		int maxUserId = 10;
 		int maxItemId = 10;
+		int maxQuantity= 10;
 		
-		ICommentDao myCommentDao = new CommentDao();
+		
+		ICartItemDao myCartItemDao = new CartItemDao();
 		try {
 
-			for (int index = 1 ; index < maxIndex; index ++) {
-				Comment comment = DataTest.genComment();
+			for (int index = 0 ; index < maxIndex; index ++) {
+				Utils.trace("------------- start ----------------------");
+				CartItem cartItem = new CartItem(Utils.randInt(1, maxQuantity));
 				
 				
 				User user = getUser(Utils.randInt(1, maxUserId));
 				Item item = getItem(Utils.randInt(1, maxItemId));
 				
-				comment.setUser(user);
-				comment.setItem(item);
+				cartItem .setUser(user);
+				cartItem .setItem(item);
 
-				comment = myCommentDao.create(comment);
-				if (comment != null)
-					Utils.trace(comment.toString());
+				cartItem  = myCartItemDao.create(cartItem );
+				if (cartItem != null)
+					Utils.trace(cartItem.toString());
 				
 			}
 
@@ -62,7 +68,7 @@ public class TCreateComment implements IConstant {
 			try {
 				myItem = myItemDao.read(id);
 			} catch (Exception e) {
-				Utils.trace("catch myItemDao.add(myItem) ");
+				Utils.trace("catch myItemDao.read(myItem) ");
 				e.printStackTrace();
 			} 
 			return myItem;

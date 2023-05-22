@@ -1,11 +1,11 @@
 package fr.emile.model.interfaces;
 
-import fr.emile.entity.Item;
+import fr.emile.entity.CartItem;
 
 public interface ICartItemDao {
-	Item create (Item item)  throws Exception;
-	Item read (int id)  throws Exception;
-	int update (Item item)  throws Exception;
-	int delete (Item item)  throws Exception;
+	CartItem create (CartItem cartItem)  throws Exception;
+	CartItem read (int id)  throws Exception;
+	int update (CartItem cartItem)  throws Exception;
+	int delete (CartItem cartItem)  throws Exception;
 
 }
