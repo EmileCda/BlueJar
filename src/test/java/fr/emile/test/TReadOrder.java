@@ -17,8 +17,7 @@ public class TReadOrder {
 public static void main(String[] args) {
 	
 	Utils.trace("------------- start ----------------------");
-	int orderId = 4
-			;
+	int orderId = 1 ;
 	Order myOrder = new Order();
 	
 	IOrderDao myOrderDao = new OrderDao();

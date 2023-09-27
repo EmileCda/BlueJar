@@ -10,7 +10,7 @@ import fr.emile.model.connect.DBConnect;
 import fr.emile.model.interfaces.IOrderLineDao;
 import fr.emile.utils.Utils;
 
-public class OrderLineDao implements IOrderLineDao {
+public final class OrderLineDao implements IOrderLineDao {
 
 	@Override
 	public OrderLine create(OrderLine orderLine) throws Exception {

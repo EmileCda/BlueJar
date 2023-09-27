@@ -11,11 +11,7 @@ public class AdminCtrl implements IAdminCtrl{
 	@Override
 	public int create(User user) {
 		
-		IUserDao myUserDao = new UserDao();
-		user.encrypte();
-		user= myUserDao.create(user);
-		if (user.getId() >0 )
-			return 1;
+		
 		return 0 ; 
 	}
 
@@ -36,3 +32,4 @@ public class AdminCtrl implements IAdminCtrl{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+}

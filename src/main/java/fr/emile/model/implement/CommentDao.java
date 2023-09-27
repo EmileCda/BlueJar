@@ -9,8 +9,7 @@ import fr.emile.model.connect.DBConnect;
 import fr.emile.model.interfaces.ICommentDao;
 import fr.emile.utils.Utils;
 
-public class CommentDao implements ICommentDao {
-
+public final class CommentDao implements ICommentDao {
 	@Override
 	public Comment create(Comment comment) throws Exception {
 		Session session = DBConnect.getSession();

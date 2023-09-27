@@ -26,7 +26,7 @@ public class TUpdateUser implements IConstant {
 	public static void main(String[] args) {
 
 		Utils.trace("------------- start ----------------------");
-		int idUser = 2;
+		int idUser = 12;
 		User user = getUser(idUser);
 //		user = addOrder(user);
 		
@@ -39,7 +39,7 @@ public class TUpdateUser implements IConstant {
 // -------------------------------------------------------------------------------------------------
 	public static User addOrder(User user) {
 
-		Item item = 
+//		Item item = 
 		
 		return user;
 

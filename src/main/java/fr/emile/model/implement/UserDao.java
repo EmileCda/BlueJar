@@ -1,15 +1,17 @@
 package fr.emile.model.implement;
 
 
+import fr.emile.common.Common;
 import fr.emile.entity.User;
 import fr.emile.model.interfaces.IUserDao;
 import fr.emile.utils.Utils;
 
+import org.hibernate.query.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import fr.emile.model.connect.DBConnect;
 
-public class UserDao implements IUserDao {
+public final class UserDao implements IUserDao {
 
 	@Override
 	public User create(User user) throws Exception {
@@ -33,7 +35,7 @@ public class UserDao implements IUserDao {
 			}
 
 		} finally {
-			this.closeSession( session);
+			Common.closeSession( session);
 
 		}
 		return user;
@@ -54,7 +56,7 @@ public class UserDao implements IUserDao {
 			Utils.trace("catch Read " +e.toString());
 
 		} finally {
-			this.closeSession( session);
+			Common.closeSession( session);
 		}
 
 		return user;
@@ -72,12 +74,29 @@ public class UserDao implements IUserDao {
 		return 0;
 	}
 
-	private void closeSession(Session session) {
+	//-------------------------------------------------------------------------------------------------
+	@Override
+	public User read(String email) throws Exception {
+		
+		Utils.trace("read(String email) " + email);
+		Session session = DBConnect.getSession();
+		User user = null;
+		try {
+			user= new User();
+			Query<User> query = session.createQuery("FROM User WHERE email = :email", User.class);
+			query.setParameter("email", email);
+			user = query.uniqueResult();
+			if (user != null)
+				user.decrypt();
 
-		// session will be close by the end of the application		
-//				if (session != null && session.isOpen())
-//					session.close();
-				
-			}
+		} catch (Exception e) {
+			Utils.trace("catch Read " +e.toString());
+
+		} finally {
+			Common.closeSession( session);
+		}
+
+		return user;
+	}
 
 }

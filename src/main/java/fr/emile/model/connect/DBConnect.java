@@ -4,7 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-public class DBConnect {
+public  final class DBConnect {
 	private static DBConnect instance;
 	private static SessionFactory sessionFactory;
 	private static Session session;

@@ -3,6 +3,7 @@ package fr.emile.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,6 +15,9 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import fr.emile.common.IConstant;
 
+
+@Entity
+@Table(name = "order_line")
 public final class OrderLine implements IConstant, Serializable {
 	
 	
@@ -22,31 +26,35 @@ public final class OrderLine implements IConstant, Serializable {
 	@Id
 	private int id; 
 	private int quantity;
-	private double unitPrice;
-	private int discount;
 
 	
-//	@ManyToOne
-//	@JoinColumn(name = "item_id", nullable = false)
-	@Transient
+//	=>[TCreateOrderLine.java]:55 : catch myCommentDao.create(comment); org.hibernate.MappingException: Repeated column in mapping for entity: fr.emile.entity.OrderLine column: item_id (should be mapped with insert="false" update="false")
+	
+	@ManyToOne
+	@JoinColumn(name = "order_id", nullable = false)
+//	@Transient
 	private Order order;
 	
-//	@OneToOne
-//	@JoinColumn(name = "item_id", nullable = false)
-	@Transient
+	@OneToOne
+	@JoinColumn(name = "item_id", nullable = false)
+//	@Transient
 	private Item item;
 	
 	
 	
 	public OrderLine() {
 		
-		this(DEFAULT_ID,DEFAULT_QUANTITY,DEFAULT_PRICE,DEFAULT_DISCOUNT,null,null);
+		this(DEFAULT_ID,DEFAULT_QUANTITY,null,null);
 	}
-	public OrderLine(int id, int quantity, double unitPrice, int discount, Order order, Item item) {
+	
+	public OrderLine( int quantity, Order order, Item item) {
+		this(DEFAULT_ID,quantity,order,item);
+	
+	}
+	
+	public OrderLine(int id, int quantity, Order order, Item item) {
 		this.setId ( id);
 		this.setQuantity ( quantity);
-		this.setUnitPrice ( unitPrice);
-		this.setDiscount ( discount);
 		this.setOrder ( order);
 		this.setItem ( item);
 	}
@@ -62,18 +70,7 @@ public final class OrderLine implements IConstant, Serializable {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-	public double getUnitPrice() {
-		return unitPrice;
-	}
-	public void setUnitPrice(double unitPrice) {
-		this.unitPrice = unitPrice;
-	}
-	public int getDiscount() {
-		return discount;
-	}
-	public void setDiscount(int discount) {
-		this.discount = discount;
-	}
+
 	public Order getOrder() {
 		return order;
 	}
@@ -85,6 +82,11 @@ public final class OrderLine implements IConstant, Serializable {
 	}
 	public void setItem(Item item) {
 		this.item = item;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("id[%d]%s  %d x %s", getId(),getOrder().getOrderNumber(),getQuantity(),  getItem().getName());
 	}
 	
 	

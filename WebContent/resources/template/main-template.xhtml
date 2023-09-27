@@ -7,35 +7,28 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head>
-	<h:outputStylesheet name="BlueJar.css" library="css" />
-	<h:outputStylesheet name="cart.css" library="css" />
-	<h:outputStylesheet name="home.css" library="css" />
-	<f:loadBundle basename="BlueJar" var="msg" />
-
+	<h:outputStylesheet name="lotus.css" library="css" />
+	<f:loadBundle basename="lotus" var="msg" />
 </h:head>
 
 <h:body>
-	<div id="page">
-			<ui:insert name="header">
-		<div id="header" class="header">
-				<ui:include src="/resources/template/header.xhtml" />
-		</div>
-			</ui:insert>
+	<div class="header">
+		<ui:insert name="header">
+			<ui:include src="/resources/template/header.xhtml" />
+		</ui:insert>
+	</div>
 
-		<div id="content" class="content">
-			<ui:insert name="content">
-				<ui:include src="/resources/template/content.xhtml" />
-			</ui:insert>
-		</div>
+	<div class="main">
+		<ui:insert name="content">
+			<ui:include src="/resources/template/default-main.xhtml" />
+		</ui:insert>
+	</div>
 
-		<div id="footer" class="footer">
-			<ui:insert name="footer">
-				<ui:include src="/resources/template/footer.xhtml">
-					<ui:param name="auteur" value="www.emile.fr" />
-				</ui:include>
-			</ui:insert>
-		</div>
+	<div class="footer">
+		<ui:insert name="footer">
+			<ui:include src="/resources/template/footer.xhtml">
+			</ui:include>
+		</ui:insert>
 	</div>
 </h:body>
-
 </html>

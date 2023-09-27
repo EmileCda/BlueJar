@@ -24,7 +24,7 @@ import fr.emile.utils.Utils;
 
 @Entity
 @Table(name = "client_order")
-public class Order implements IConstant, Serializable {
+public  final class Order implements IConstant, Serializable {
 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id

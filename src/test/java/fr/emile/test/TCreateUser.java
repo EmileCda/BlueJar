@@ -2,6 +2,7 @@ package fr.emile.test;
 
 import fr.emile.common.IConstant;
 import fr.emile.entity.Address;
+//import fr.emile.entity.Address;
 import fr.emile.entity.BankCard;
 import fr.emile.entity.Comment;
 import fr.emile.entity.Item;

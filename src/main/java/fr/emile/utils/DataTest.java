@@ -22,7 +22,7 @@ import fr.emile.enums.Gender;
 import fr.emile.enums.Profile;
 import fr.emile.utils.Utils;
 
-public class DataTest implements IConstant {
+public final class DataTest implements IConstant {
 
 	private static List<String> firstnameList;
 	private static List<String> lastnameList;

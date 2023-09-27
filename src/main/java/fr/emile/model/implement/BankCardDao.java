@@ -1,5 +1,6 @@
 package fr.emile.model.implement;
 
+import fr.emile.common.Common;
 import fr.emile.entity.BankCard;
 import fr.emile.model.interfaces.IBankCardDao;
 import fr.emile.utils.Utils;
@@ -8,7 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import fr.emile.model.connect.DBConnect;
 
-public class BankCardDao implements IBankCardDao {
+public  final class BankCardDao implements IBankCardDao {
 
 	@Override
 	public BankCard create(BankCard bankCard) throws Exception {
@@ -29,7 +30,7 @@ public class BankCardDao implements IBankCardDao {
 			}
 
 		} finally {
-			this.closeSession( session);
+			Common.closeSession( session);
 
 		}
 		return bankCard;
@@ -51,7 +52,7 @@ public class BankCardDao implements IBankCardDao {
 			Utils.trace("catch Read " +e.toString());
 
 		} finally {
-			this.closeSession( session);
+			Common.closeSession( session);
 		}
 
 		return bankCard;
@@ -68,14 +69,6 @@ public class BankCardDao implements IBankCardDao {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
-	private void closeSession(Session session) {
-
-		// session will be close by the end of the application		
-//				if (session != null && session.isOpen())
-//					session.close();
-				
-			}
 
 
 }

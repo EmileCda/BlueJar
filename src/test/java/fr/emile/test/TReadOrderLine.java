@@ -1,34 +1,34 @@
 package fr.emile.test;
 
-import fr.emile.entity.User;
-import fr.emile.model.implement.UserDao;
-import fr.emile.model.interfaces.IUserDao;
+import fr.emile.entity.OrderLine;
+import fr.emile.model.implement.OrderLineDao;
+import fr.emile.model.interfaces.IOrderLineDao;
 import fr.emile.utils.DataTest;
 import fr.emile.utils.Utils;
 
 //*************** test result *********************************************************************
-//check read user by id (ok)
+//check read order by id (ok)
 //check decript password : ok 
 ////*************** test result *********************************************************************
 
-public class TReadUser {
+public class TReadOrderLine {
 	public static void main(String[] args) {
 
 		Utils.trace("------------- start ----------------------");
-		int userId = 2;
-		User myUser = new User();
+		int orderLineId = 2;
+		OrderLine myOrderLine = new OrderLine();
 
-		IUserDao myUserDao = new UserDao();
+		IOrderLineDao myOrderLineDao = new OrderLineDao();
 		try {
-			myUser = myUserDao.read(userId);
+			myOrderLine = myOrderLineDao.read(orderLineId);
 		} catch (Exception e) {
-			Utils.trace("catch myUserDao.add(myUser) ");
+			Utils.trace("catch myOrderLineDao.add(myOrderLine) ");
 			e.printStackTrace();
 		} finally {
-			if (myUser != null) {
-				Utils.trace("\n" +myUser.toString());
+			if (myOrderLine != null) {
+				Utils.trace("\n" + myOrderLine.toString());
 			} else {
-				Utils.trace("myUser is null");
+				Utils.trace("myOrderLine is null");
 			}
 		}
 		Utils.trace("------------- End ----------------------");

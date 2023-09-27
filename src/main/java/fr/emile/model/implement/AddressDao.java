@@ -10,7 +10,7 @@ import fr.emile.model.connect.DBConnect;
 import fr.emile.model.interfaces.IAddressDao;
 import fr.emile.utils.Utils;
 
-public class AddressDao implements IAddressDao {
+public  final  class AddressDao implements IAddressDao {
 
 	public Address create(Address address) throws Exception {
 		Session session = DBConnect.getSession();

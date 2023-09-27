@@ -17,7 +17,7 @@ public class TReadBankCard {
 public static void main(String[] args) {
 	
 	Utils.trace("------------- start ----------------------");
-	int id = 16 ;
+	int id = 2 ;
 	BankCard bankCard=  new BankCard();
 	
 	IBankCardDao myBankCardDao = new BankCardDao();
@@ -27,6 +27,8 @@ public static void main(String[] args) {
 		Utils.trace("catch myUserDao.add(myUser) ");
 		e.printStackTrace();
 	}finally {
+		Utils.trace(bankCard.toString());
+		bankCard.decrypt();
 		Utils.trace(bankCard.toString());
 		
 	}

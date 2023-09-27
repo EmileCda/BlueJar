@@ -3,6 +3,7 @@ package fr.emile.model.implement;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import fr.emile.common.Common;
 import fr.emile.entity.Address;
 import fr.emile.entity.Category;
 import fr.emile.entity.Category;
@@ -33,7 +34,7 @@ public final class CategoryDao implements ICategoryDao {
 			}
 
 		} finally {
-			this.closeSession( session);
+			Common.closeSession( session);
 
 		}
 		return category;
@@ -51,7 +52,7 @@ public final class CategoryDao implements ICategoryDao {
 			Utils.trace("catch Read " +e.toString());
 
 		} finally {
-			this.closeSession( session);
+			Common.closeSession( session);
 		}
 
 		return category;
@@ -70,12 +71,5 @@ public final class CategoryDao implements ICategoryDao {
 	}
 
 
-	private void closeSession(Session session) {
-
-		// session will be close by the end of the application		
-//				if (session != null && session.isOpen())
-//					session.close();
-				
-			}
 
 }

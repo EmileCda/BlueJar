@@ -9,7 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class Utils {
+public final class Utils {
 
 // ------------------------------------------------------------------------------------------------
 	public static Date addDate(Date date, int nbDay) {

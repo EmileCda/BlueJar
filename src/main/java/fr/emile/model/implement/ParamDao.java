@@ -1,5 +1,6 @@
 package fr.emile.model.implement;
 
+import fr.emile.common.Common;
 import fr.emile.entity.Param ;
 import fr.emile.model.connect.DBConnect;
 import fr.emile.model.interfaces.IParamDao;
@@ -8,7 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import fr.emile.utils.Utils;
 
-public class ParamDao implements IParamDao{
+public final class ParamDao implements IParamDao{
 
 	@Override
 	public Param  create(Param  param ) throws Exception {
@@ -30,7 +31,7 @@ public class ParamDao implements IParamDao{
 			}
 
 		} finally {
-			this.closeSession( session);
+			Common.closeSession( session);
 
 		}
 		return param;
@@ -60,7 +61,7 @@ public class ParamDao implements IParamDao{
 		} catch (Exception e) {
 			Utils.trace("catch getByFunctionCode  :" + e.toString());
 		} finally {
-			this.closeSession( session);
+			Common.closeSession( session);
 		}
 		return myParam ;
 
@@ -79,12 +80,6 @@ public class ParamDao implements IParamDao{
 		return 0;
 	}
 	
-	private void closeSession(Session session) {
 
-		// session will be close by the end of the application		
-//				if (session != null && session.isOpen())
-//					session.close();
-				
-			}
 
 }

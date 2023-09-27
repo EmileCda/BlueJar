@@ -15,8 +15,9 @@ import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "address")
-public class Address implements  IConstant, Serializable {
+public final class Address implements  IConstant, Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id; 

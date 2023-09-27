@@ -11,7 +11,8 @@ import fr.emile.model.connect.DBConnect;
 import fr.emile.model.interfaces.IItemDao;
 import fr.emile.utils.Utils;
 
-public class ItemDao implements IItemDao {
+public final class ItemDao implements IItemDao {
+
 
 	@Override
 	public Item create(Item item) throws Exception {

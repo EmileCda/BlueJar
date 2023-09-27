@@ -18,7 +18,7 @@ import fr.emile.common.IConstant;
 
 @Entity
 @Table(name = "cart_item")
-public class CartItem  implements IConstant, Serializable {
+public final  class CartItem  implements IConstant, Serializable {
 
 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

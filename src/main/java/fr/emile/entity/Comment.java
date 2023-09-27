@@ -17,7 +17,7 @@ import fr.emile.common.IConstant;
 
 @Entity
 @Table(name = "comment")
-public class Comment implements IConstant, Serializable {
+public  final class Comment implements IConstant, Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

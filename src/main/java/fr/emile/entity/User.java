@@ -108,6 +108,10 @@ public class User implements IConstant {
 		this.setBankCardList(bankCardList);
 		this.setCommentList(commentList);
 		this.setCartItemList(cartItemList);
+		if (this.commentList == null) 	commentList = new ArrayList<Comment>();
+			
+		if (this.addressList == null)	this.addressList = new ArrayList<Address>();
+		if (this.bankCardList == null)		this.bankCardList= new ArrayList<BankCard>();
 
 
 	}
@@ -342,18 +346,18 @@ public class User implements IConstant {
 
 		if ((this.getAddressList() != null) && (this.getAddressList().size() >0)) {
 			
-			stringDisplay += "Adresse : \n";
+			stringDisplay += "\tAdresse : \n";
 			
 			for (Address address : getAddressList()) {
-				stringDisplay += "\t" + address.toString() + "\n";
+				stringDisplay += "\t\t" + address.toString() + "\n";
 			}
 		}
 		
 		if ((this.getBankCardList() != null) && (this.getBankCardList().size() >0)) {
-			stringDisplay += "Carte de paiement : \n";
+			stringDisplay += "\tCarte de paiement : \n";
 			
 			for (BankCard bankCard : getBankCardList()) {
-				stringDisplay += "\t" + bankCard .toString() + "\n";
+				stringDisplay += " \t\t" + bankCard .toString() + "\n";
 			}
 		}
 

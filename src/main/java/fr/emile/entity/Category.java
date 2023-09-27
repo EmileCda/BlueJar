@@ -20,7 +20,7 @@ import fr.emile.utils.Utils;
 
 @Entity
 @Table(name = "category")
-public class Category implements IConstant, Serializable {
+public  final class Category implements IConstant, Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

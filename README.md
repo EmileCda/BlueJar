@@ -35,7 +35,10 @@ bluejar
 # Documentation projet
 
 1. [Préambule](./doc/preambule.md)
+1. [Organisation](./doc/organisation.md)
+
 1. [Cahier des charge](./doc/cahier-des-charge.md)
 1. [Analyse](./doc/specification-fonctionelle.md)
 1. [Developpement](./doc/specification-technique.md)
 1. [Test](.doc/test.md)
+1. [Chiffrage](./doc/chiffrage.md)

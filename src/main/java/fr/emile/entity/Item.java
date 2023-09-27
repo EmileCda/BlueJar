@@ -28,7 +28,7 @@ import fr.emile.common.IConstant;
 
 @Entity
 @Table(name = "item")
-public class Item implements IConstant, Serializable {
+public  final  class Item implements IConstant, Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
 	private int id;

@@ -9,7 +9,7 @@ import fr.emile.model.connect.DBConnect;
 import fr.emile.model.interfaces.IOrderDao;
 import fr.emile.utils.Utils;
 
-public class OrderDao implements IOrderDao {
+public final class OrderDao implements IOrderDao {
 
 	@Override
 	public Order create(Order order) throws Exception {
